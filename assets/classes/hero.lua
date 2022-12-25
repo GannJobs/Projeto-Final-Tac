@@ -2,33 +2,6 @@ Hero = Classe:extend()
 
 function Hero:new()
 
-    --sprites
-
-    self.sprites_repouso = {"assets/imagens/personagem/Repouso/Ddireita.png",
-                            "assets/imagens/personagem/Repouso/Desquerda.png"}
-
-    self.sprites_andar_esquerda = {"assets/imagens/personagem/Esquerda/sprites12.png",
-                                    "assets/imagens/personagem/Esquerda/sprites13.png",
-                                    "assets/imagens/personagem/Esquerda/sprites14.png",
-                                    "assets/imagens/personagem/Esquerda/sprites15.png",
-                                    "assets/imagens/personagem/Esquerda/sprites16.png",
-                                    "assets/imagens/personagem/Esquerda/sprites17.png",
-                                    "assets/imagens/personagem/Esquerda/sprites18.png",
-                                    "assets/imagens/personagem/Esquerda/sprites19.png",
-                                    "assets/imagens/personagem/Esquerda/sprites20.png",
-                                    "assets/imagens/personagem/Esquerda/sprites21.png"}
-
-    self.sprites_andar_direita = {"assets/imagens/personagem/Direita/sprites02.png",
-                                    "assets/imagens/personagem/Direita/sprites03.png",
-                                    "assets/imagens/personagem/Direita/sprites04.png",
-                                    "assets/imagens/personagem/Direita/sprites05.png",
-                                    "assets/imagens/personagem/Direita/sprites06.png",
-                                    "assets/imagens/personagem/Direita/sprites07.png",
-                                    "assets/imagens/personagem/Direita/sprites08.png",
-                                    "assets/imagens/personagem/Direita/sprites09.png",
-                                    "assets/imagens/personagem/Direita/sprites10.png",
-                                    "assets/imagens/personagem/Direita/sprites11.png"}
-
     -- atributos
 
     self.width = 50
@@ -39,7 +12,13 @@ function Hero:new()
     self.direcao = 1  -- 1 direita / 2 esquerda
     self.movimento = false
 
-    self.imagem = love.graphics.newImage(self.sprites_repouso[self.direcao])
+    self.parada = love.graphics.newImage("assets/imagens/personagem/Parada.png")
+    local grid = anim.newGrid(32, 32 , self.parada:getWidth(), self.parada:getHeight())
+    animationP = anim.newAnimation( grid('1-1' , 1), 0.1)
+
+    self.andando = love.graphics.newImage("assets/imagens/personagem/Andar.png")
+    local grid = anim.newGrid(32, 32 , self.andando:getWidth(), self.andando:getHeight())
+    animation = anim.newAnimation( grid('1-3' , 1,'1-3' , 2,'1-3' , 3,'1-1' , 4), 0.1)
 
     -- controladores
     
@@ -49,59 +28,116 @@ function Hero:new()
 end
 
 function Hero:update(dt)
-    self.tempo = self.tempo + dt
 
+    self.tempo = self.tempo + dt
     self:mov(dt)
-    self:Animation()
    
-    if self.movimento == 0 then 
-        self.imagem = love.graphics.newImage(self.sprites_repouso[self.direcao])
-    end
 end
 
 function Hero:draw()
-    love.graphics.draw(self.imagem, self.x, self.y)
+    if self.movimento == true then
+        if self.direcao == 1 then
+            animation:draw(self.andando, self.x, self.y, 0, 1, 1, 16, 0)
+        else 
+            animation:draw(self.andando, self.x, self.y, 0, -1, 1, 16, 0)
+        end
+    else
+        if self.direcao == 1 then
+            love.graphics.draw(self.parada, self.x, self.y, 0, 1, 1, 16, 0)
+        else 
+            love.graphics.draw(self.parada, self.x, self.y, 0, -1, 1, 16, 0)
+        end
+    end
 end
 
-function Hero:Animation()
-    if self.movimento then 
-        if self.direcao == 1 then
-            self.imagem = love.graphics.newImage(self.sprites_andar_direita[1])
-            self.aux = self.aux + 1
-            if self.aux == 10 then
-                self.aux = 1
-            end
+
+
+function Hero:mov(dt)
+    -- if love.keyboard.isDown("w") then
+    --     self.y = self.y - self.speed * dt
+    --     self.movimento = true
+    --     animation:update(dt)
+    -- else 
+    --     if love.keyboard.isDown("s") then
+    --         self.y = self.y + self.speed * dt
+    --         self.movimento = true
+    --         animation:update(dt)
+    --     else
+    --         if love.keyboard.isDown("a") then
+    --             self.x = self.x - self.speed * dt
+    --             self.direcao = 2
+    --             self.movimento = true
+    --             animation:update(dt)
+    --         else
+    --             if love.keyboard.isDown("d") then
+    --                 self.x = self.x + self.speed * dt
+    --                 self.direcao = 1
+    --                 self.movimento = true
+    --                 animation:update(dt)
+    --             else
+    --                 self.movimento = false
+    --             end
+    --         end
+    --     end
+    -- end
+    
+    if love.keyboard.isDown("w") and love.keyboard.isDown("d") then
+        self.y = self.y - self.speed * dt
+        self.x = self.x + self.speed * dt
+        self.movimento = true
+        self.direcao = 1
+        animation:update(dt)
+    else
+        if love.keyboard.isDown("w") and love.keyboard.isDown("a") then
+            self.y = self.y - self.speed * dt
+            self.x = self.x - self.speed * dt
+            self.movimento = true
+            self.direcao = 2
+            animation:update(dt)
         else
-            self.imagem = love.graphics.newImage(self.sprites_andar_esquerda[1])
-            self.aux = self.aux + 1
-            if self.aux == 10 then
-                self.aux = 1
+            if love.keyboard.isDown("w") then
+                self.y = self.y - self.speed * dt
+                self.movimento = true
+                animation:update(dt)
+            else
+                if love.keyboard.isDown("s") and love.keyboard.isDown("a") then
+                    self.y = self.y + self.speed * dt
+                    self.x = self.x - self.speed * dt
+                    self.movimento = true
+                    self.direcao = 2
+                    animation:update(dt)
+                else
+                    if love.keyboard.isDown("s") and love.keyboard.isDown("d")then
+                        self.y = self.y + self.speed * dt
+                        self.x = self.x + self.speed * dt
+                        self.movimento = true
+                        self.direcao = 1
+                        animation:update(dt)
+                    else 
+                        if love.keyboard.isDown("s") then
+                            self.y = self.y + self.speed * dt
+                            self.movimento = true
+                            animation:update(dt)
+                        else
+                            if love.keyboard.isDown("a") then
+                                self.x = self.x - self.speed * dt
+                                self.direcao = 2
+                                self.movimento = true
+                                animation:update(dt)
+                            else
+                                if love.keyboard.isDown("d") then
+                                    self.x = self.x + self.speed * dt
+                                    self.direcao = 1
+                                    self.movimento = true
+                                    animation:update(dt)
+                                else
+                                    self.movimento = false
+                                end
+                            end
+                        end
+                    end
+                end
             end
         end
     end
-    self.aux = 1
-end
-
-function Hero:mov(dt)
-    if love.keyboard.isDown("w") then
-        self.y = self.y - self.speed * dt
-        self.movimento = true
-        self.imagem = love.graphics.newImage(self.sprites_repouso[self.direcao])
-    end
-    if love.keyboard.isDown("s") then
-        self.y = self.y + self.speed * dt
-        self.movimento = true
-        self.imagem = love.graphics.newImage(self.sprites_repouso[self.direcao])
-    end
-    if love.keyboard.isDown("a") then
-        self.x = self.x - self.speed * dt
-        self.direcao = 2
-        self.movimento = true
-    end
-    if love.keyboard.isDown("d") then
-        self.x = self.x + self.speed * dt
-        self.direcao = 1
-        self.movimento = true
-    end
-    self.movimento = false
 end

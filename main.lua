@@ -1,6 +1,7 @@
 function love.load()
     Classe = require "assets/Recursos/classic"
     Vetor = require "assets/Recursos/vector"
+    anim = require "assets.Recursos.anim8"
     
     require "assets/classes.hero"
     hero = Hero()
