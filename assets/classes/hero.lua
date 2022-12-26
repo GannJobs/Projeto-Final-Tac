@@ -96,14 +96,12 @@ function Hero:draw()
         end
 
         if self.Skill1 == true then
-            if self.direcao == 1 then
-                self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 26)
-            end
+            self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 26)
             -- love.graphics.polygon("fill", EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2,EspadaDeEnergia.y2, EspadaDeEnergia.x3, EspadaDeEnergia.y3)
         end
 
         if self.Skill2 == true then
-            self.aniSkill02:draw(self.Skill02, x2, y2, 0, 3, 3, 32, 28)
+            self.aniSkill02:draw(self.Skill02, x2, y2, 0, 4, 4, 32, 28)
         end
     end
 
@@ -145,6 +143,7 @@ function Hero:Attack(dt)
     if self.atacando == true then
         self.aniAtaque:update(dt)
         if (self.tempo > self.tempoaux0 + 0.35) then
+            Corte = 0
             self.aniAtaque:pauseAtStart()
             self.tempoaux0 = 0
             self.atacando = false
@@ -169,11 +168,13 @@ function Hero:Skills(dt)
             x3 = x1 + 30,
             y3 = y1 + 33
         }
+        -- verificacao de colisao
     end
 
     if self.Skill1 == true then
         self.aniSkill01:update(dt)
-        if (self.tempo > self.tempoaux1 + 2.7) then
+        if (self.tempo > self.tempoaux1 + 1.35) then
+            EspadaDeEnergia = 0
             self.aniSkill01:pauseAtStart()
             self.tempoaux1 = 0
             self.Skill1 = false
@@ -186,11 +187,22 @@ function Hero:Skills(dt)
         self.tempoaux2 = self.tempo
         self.Skill2 = true
         self.aniSkill02:resume()
+        TempestadeDeChamas = {
+            posicao = Vetor(x2,y2),
+            raio = 140
+        }
     end
 
     if self.Skill2 == true then
+        if RangeAttack(TempestadeDeChamas.raio, enemy01.Contato, TempestadeDeChamas.posicao, enemy01.posicao) then
+            enemy01.Hp = enemy01.Hp - 2
+        end
+        if RangeAttack(TempestadeDeChamas.raio, enemy02.Contato, TempestadeDeChamas.posicao, enemy02.posicao) then
+            enemy02.Hp = enemy02.Hp - 1
+        end
         self.aniSkill02:update(dt)
-        if (self.tempo > self.tempoaux2 + 3.4) then
+        if (self.tempo > self.tempoaux2 + 3.7) then
+            TempestadeDeChamas = 0
             self.aniSkill02:pauseAtStart()
             self.tempoaux2 = 0
             self.Skill2 = false
