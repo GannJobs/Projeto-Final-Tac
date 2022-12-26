@@ -65,6 +65,14 @@ function Hero:update(dt)
     self.posicao.x = self.x
     self.posicao.y = self.y
 
+    if self.Hp > 0 and self.Hp < 500 then
+        self.Hp = self.Hp + 0.2 -- regeneraçao de vida
+    end
+
+    if self.Mana > 0 and self.Mana < 350 then
+        self.Mana = self.Mana + 0.5 -- regeneraçao de mana
+    end
+
 end
 
 function Hero:draw()
@@ -154,7 +162,8 @@ end
 
 function Hero:Skills(dt)
 
-    if love.keyboard.isDown("k") and self.Skill1 == false then
+    if love.keyboard.isDown("k") and self.Skill1 == false and self.Mana - 120 > 0 then
+        self.Mana = self.Mana - 120
         x1 = self.x
         y1 = self.y
         self.tempoaux1 = self.tempo
@@ -181,7 +190,8 @@ function Hero:Skills(dt)
         end
     end
 
-    if love.keyboard.isDown("l") and self.Skill2 == false then
+    if love.keyboard.isDown("l") and self.Skill2 == false  and self.Mana - 180 > 0 then
+        self.Mana = self.Mana - 180
         x2 = self.x
         y2 = self.y
         self.tempoaux2 = self.tempo
