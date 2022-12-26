@@ -40,7 +40,7 @@ function Hero:new()
     self.Skill1 = false
     self.Skill01 = love.graphics.newImage("assets/imagens/personagem/Skill 01.png")
     local grid = anim.newGrid(64, 64, self.Skill01:getWidth(), self.Skill01:getHeight())
-    self.aniSkill01 = anim.newAnimation(grid('1-5', 1, '1-5', 2, '1-5', 3, '1-5', 4, '1-5', 5, '1-3', 6), 0.1)
+    self.aniSkill01 = anim.newAnimation(grid('1-5', 1, '1-5', 2, '1-5', 3, '1-5', 4, '1-5', 5, '1-3', 6), 0.05)
 
     self.Skill2 = false
     self.Skill02 = love.graphics.newImage("assets/imagens/personagem/Skill 02.png")
@@ -68,10 +68,9 @@ function Hero:update(dt)
 end
 
 function Hero:draw()
-
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.x, self.y+self.Contato, self.Contato)
+        love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
         -- Status
 
         love.graphics.setColor(1, 0, 0)
@@ -94,16 +93,24 @@ function Hero:draw()
 
         if self.atacando == true then
             self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao, 1, 16, 26)
+
+            love.graphics.setColor(0, 1, 1)
+            love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt) -- area do ataque
+            love.graphics.setColor(1, 1, 1)
         end
 
         if self.Skill1 == true then
-            self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 28)
+            self.aniSkill01:draw(self.Skill01, x1, y1, -80, 3, 3, 30, 28)
         end
 
         if self.Skill2 == true then
             self.aniSkill02:draw(self.Skill02, x2, y2, 0, 3, 3, 32, 28)
         end
     end
+
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.points(self.x, self.y) -- referencial de posicao
+    love.graphics.setColor(1, 1, 1)
 end
 
 function Hero:Attack(dt)
@@ -112,6 +119,28 @@ function Hero:Attack(dt)
         self.tempoaux0 = self.tempo
         self.atacando = true
         self.aniAtaque:resume()
+        if self.direcao == 1 then
+            Corte = {
+                x = self.x + 16,
+                y = self.y - 32,
+                whidt = 32,
+                heigt = 64
+            }
+        else
+            Corte = {
+                x = self.x - 48,
+                y = self.y - 32,
+                whidt = 32,
+                heigt = 64
+            }
+        end
+        if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            enemy01.Hp = enemy01.Hp - 25
+        end
+        if circleRect(enemy02.posicao.x, enemy02.posicao.y, enemy02.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            enemy02.Hp = enemy02.Hp - 40
+        end
+
     end
 
     if self.atacando == true then

@@ -41,9 +41,27 @@ end
 
 function Enemy02:update(dt)
 
-    self.tempo = self.tempo + dt
-    self:move(dt)
-    self:Attack(dt)
+    if self.Hp > 0 then
+        self.tempo = self.tempo + dt
+        self:move(dt)
+        self:Attack(dt)
+    -- else
+    --     self.width = 0
+    --     self.height = 0
+    --     self.Contato = 0
+    --     self.x = 0 -- love.graphics.getWidth() / 2 - self.width / 2
+    --     self.y = 0 -- love.graphics.getHeight() / 2 - self.height / 2
+    --     self.raioDeteccao = 0
+    --     self.direcao = 0 -- 1 direita / -1 esquerda
+    --     self.movimento = false
+    --     self.atacando = false
+
+    --     self.posicao = 0
+    --     self.velocidade = 0
+    --     self.vel_desejada = 0
+    --     self.forca_direcao = 0
+    --     self.massa = 0
+    end
 
 end
 
@@ -51,14 +69,13 @@ function Enemy02:draw()
 
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.posicao.x, self.posicao.y+self.Contato, self.Contato)
-
+        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
 
         -- Status
 
-        love.graphics.setColor(1,0,0)
+        love.graphics.setColor(1, 0, 0)
         love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
-        love.graphics.setColor(1,1,1)
+        love.graphics.setColor(1, 1, 1)
 
         -- animaçoes
 
@@ -79,16 +96,16 @@ function Enemy02:Attack(dt)
         self.tempoaux = self.tempo
         self.atacando = true
         hero.Hp = hero.Hp - 40
-        --animacao
+        -- animacao
     end
 
     if self.atacando == true then
         -- animacao
-        if (self.tempo > self.tempoaux + 3) then
+        if (self.tempo > self.tempoaux + 2) then
             self.atacando = false
         end
     end
-    
+
 end
 
 function Enemy02:move(dt)

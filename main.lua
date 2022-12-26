@@ -43,3 +43,35 @@ function RangeAttack(a, b, Va, Vb)
         return false
     end
 end
+
+function circleRect(cx, cy, radius, rx, ry, rw, rh)
+
+    local testX = cx;
+    local testY = cy;
+
+    if cx < rx then
+        testX = rx
+    else
+        if cx > rx + rw then
+            testX = rx + rw
+        end
+    end
+
+    if cy < ry then
+        testY = ry
+    else
+        if cy > ry + rh then
+            testY = ry + rh
+        end
+    end
+
+    local distX = cx - testX;
+    local distY = cy - testY;
+    local distance = math.sqrt((distX * distX) + (distY * distY));
+
+    if (distance <= radius) then
+        return true;
+    end
+    return false;
+
+end
