@@ -9,16 +9,21 @@ function love.load()
     require "assets/classes.inimigo01"
     enemy01 = Enemy01()
 
+    require "assets/classes.inimigo02"
+    enemy02 = Enemy02()
+
 end
 
 function love.update(dt)
     hero:update(dt)
     enemy01:update(dt)
+    enemy02:update(dt)
 end
 
 function love.draw()
     hero:draw()
     enemy01:draw()
+    enemy02:draw()
 end
 
 function RangeInimigo(a, Va, Vb)

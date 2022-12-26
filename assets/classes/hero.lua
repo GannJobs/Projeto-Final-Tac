@@ -15,11 +15,11 @@ function Hero:new()
 
     self.parada = love.graphics.newImage("assets/imagens/personagem/Parada.png")
     local grid = anim.newGrid(32, 32, self.parada:getWidth(), self.parada:getHeight())
-    animationP = anim.newAnimation(grid('1-1', 1), 0.1)
+    self.animationP = anim.newAnimation(grid('1-1', 1), 0.1)
 
     self.andando = love.graphics.newImage("assets/imagens/personagem/Andar.png")
     local grid = anim.newGrid(32, 32, self.andando:getWidth(), self.andando:getHeight())
-    aniHeroMove = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-3', 3, '1-1', 4), 0.1)
+    self.aniHeroMove = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-3', 3, '1-1', 4), 0.1)
 
     -- controladores
 
@@ -40,7 +40,7 @@ end
 
 function Hero:draw()
     if self.movimento == true then
-        aniHeroMove:draw(self.andando, self.x, self.y, 0, self.direcao, 1, 16, 0)
+        self.aniHeroMove:draw(self.andando, self.x, self.y, 0, self.direcao, 1, 16, 0)
     else
         love.graphics.draw(self.parada, self.x, self.y, 0, self.direcao, 1, 16, 0)
     end
@@ -52,50 +52,50 @@ function Hero:mov(dt)
         self.x = self.x + self.speed * dt
         self.movimento = true
         self.direcao = 1
-        aniHeroMove:update(dt)
+        self.aniHeroMove:update(dt)
     else
         if love.keyboard.isDown("w") and love.keyboard.isDown("a") then
             self.y = self.y - self.speed * dt
             self.x = self.x - self.speed * dt
             self.movimento = true
             self.direcao = -1
-            aniHeroMove:update(dt)
+            self.aniHeroMove:update(dt)
         else
             if love.keyboard.isDown("w") then
                 self.y = self.y - self.speed * dt
                 self.movimento = true
-                aniHeroMove:update(dt)
+                self.aniHeroMove:update(dt)
             else
                 if love.keyboard.isDown("s") and love.keyboard.isDown("a") then
                     self.y = self.y + self.speed * dt
                     self.x = self.x - self.speed * dt
                     self.movimento = true
                     self.direcao = -1
-                    aniHeroMove:update(dt)
+                    self.aniHeroMove:update(dt)
                 else
                     if love.keyboard.isDown("s") and love.keyboard.isDown("d") then
                         self.y = self.y + self.speed * dt
                         self.x = self.x + self.speed * dt
                         self.movimento = true
                         self.direcao = 1
-                        aniHeroMove:update(dt)
+                        self.aniHeroMove:update(dt)
                     else
                         if love.keyboard.isDown("s") then
                             self.y = self.y + self.speed * dt
                             self.movimento = true
-                            aniHeroMove:update(dt)
+                            self.aniHeroMove:update(dt)
                         else
                             if love.keyboard.isDown("a") then
                                 self.x = self.x - self.speed * dt
                                 self.direcao = -1
                                 self.movimento = true
-                                aniHeroMove:update(dt)
+                                self.aniHeroMove:update(dt)
                             else
                                 if love.keyboard.isDown("d") then
                                     self.x = self.x + self.speed * dt
                                     self.direcao = 1
                                     self.movimento = true
-                                    aniHeroMove:update(dt)
+                                    self.aniHeroMove:update(dt)
                                 else
                                     self.movimento = false
                                 end
