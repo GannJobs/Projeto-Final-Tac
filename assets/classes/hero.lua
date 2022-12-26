@@ -4,8 +4,8 @@ function Hero:new()
 
     -- atributos
 
-    self.width = 50
-    self.height = 50
+    self.width = 32
+    self.height = 32
     self.x = 200 -- love.graphics.getWidth() / 2 - self.width / 2
     self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.posicao = Vetor(self.x, self.y)
@@ -27,6 +27,11 @@ function Hero:new()
 
     -- ataques
 
+    self.atacando = false
+    self.ataque = love.graphics.newImage("assets/imagens/personagem/Ataque01.png")
+    local grid = anim.newGrid(64, 64, self.ataque:getWidth(), self.ataque:getHeight())
+    self.aniAtaque = anim.newAnimation(grid('1-3', 1,'1-3', 2,'1-3', 3,'1-2', 4), 0.03)
+
     -- poderes
     self.Skill1 = false
     self.Skill01 = love.graphics.newImage("assets/imagens/personagem/Skill 01.png")
@@ -41,6 +46,7 @@ function Hero:new()
     -- controladores
 
     self.tempo = 0
+    self.tempoaux0 = 0
     self.tempoaux1 = 0
     self.tempoaux2 = 0
 
@@ -50,6 +56,7 @@ function Hero:update(dt)
     self.tempo = self.tempo + dt
     self:mov(dt)
     self:Skills(dt)
+    self:Attack(dt)
 
     self.posicao.x = self.x
     self.posicao.y = self.y
@@ -58,20 +65,45 @@ end
 
 function Hero:draw()
 
-    if self.movimento == true then
+    if self.movimento == true and self.atacando == false then
         self.aniHeroMove:draw(self.andando, self.x, self.y, 0, self.direcao, 1, 16, 0)
     else
-        love.graphics.draw(self.parada, self.x, self.y, 0, self.direcao, 1, 16, 0)
+        if self.atacando == false then
+            love.graphics.draw(self.parada, self.x, self.y, 0, self.direcao, 1, 16, 0)
+        end
+    end
+
+    if self.atacando == true then 
+        self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao, 1, 16, 26)
     end
 
     if self.Skill1 == true then
-        self.aniSkill01:draw(self.Skill01, x1, y1, 0, 1, 1, 32, 0)
+        self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 0)
     end
 
     if self.Skill2 == true then
-        self.aniSkill02:draw(self.Skill02, x2, y2, 0, 1, 1, 32, 0)
+        self.aniSkill02:draw(self.Skill02, x2, y2, 0, 3, 3, 32, 0)
     end
 
+end
+
+function Hero:Attack(dt)
+
+    if love.keyboard.isDown("j") and self.atacando == false then
+        self.tempoaux0 = self.tempo
+        self.atacando = true
+        self.aniAtaque:resume()
+    end
+
+    if self.atacando == true then
+        self.aniAtaque:update(dt)
+        if(self.tempo > self.tempoaux0 + 0.35) then
+            self.aniAtaque:pauseAtStart()
+            self.tempoaux0 = 0
+            self.atacando = false
+        end
+    end
+    
 end
 
 function Hero:Skills(dt)
@@ -81,11 +113,13 @@ function Hero:Skills(dt)
         y1 = self.y
         self.tempoaux1 = self.tempo
         self.Skill1 = true
+        self.aniSkill01:resume()
     end
 
     if self.Skill1 == true then
         self.aniSkill01:update(dt)
         if(self.tempo > self.tempoaux1 + 2.7) then
+            self.aniSkill01:pauseAtStart()
             self.tempoaux1 = 0
             self.Skill1 = false
         end
@@ -96,11 +130,13 @@ function Hero:Skills(dt)
         y2 = self.y
         self.tempoaux2 = self.tempo
         self.Skill2 = true
+        self.aniSkill02:resume()
     end
 
     if self.Skill2 == true then
         self.aniSkill02:update(dt)
-        if(self.tempo > self.tempoaux2 + 2.7) then
+        if(self.tempo > self.tempoaux2 + 3.4) then
+            self.aniSkill02:pauseAtStart()
             self.tempoaux2 = 0
             self.Skill2 = false
         end

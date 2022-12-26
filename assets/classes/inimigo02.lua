@@ -4,8 +4,8 @@ function Enemy02:new()
 
     -- atributos
 
-    self.width = 50
-    self.height = 50
+    self.width = 32
+    self.height = 32
     self.x = 600 -- love.graphics.getWidth() / 2 - self.width / 2
     self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.raioDeteccao = 300
