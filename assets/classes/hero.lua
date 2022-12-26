@@ -4,6 +4,7 @@ function Hero:new()
 
     self.width = 32
     self.height = 32
+    self.Contato = 16
     self.x = 200
     self.y = 200
     self.posicao = Vetor(self.x, self.y)
@@ -70,6 +71,7 @@ function Hero:draw()
 
     if self.Hp > 0 then
 
+        love.graphics.circle("fill", self.x, self.y+self.Contato, self.Contato)
         -- Status
 
         love.graphics.setColor(1, 0, 0)

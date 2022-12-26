@@ -26,9 +26,18 @@ function love.draw()
     enemy02:draw()
 end
 
-function RangeInimigo(a, Va, Vb)
+function RangeVisao(a, Va, Vb)
     local DistVetores = math.sqrt((Va.x - Vb.x) ^ 2 + (Va.y - Vb.y) ^ 2)
     if a >= DistVetores then
+        return true
+    else
+        return false
+    end
+end
+
+function RangeAttack(a, b, Va, Vb)
+    local DistVetores = math.sqrt((Va.x - Vb.x) ^ 2 + (Va.y - Vb.y) ^ 2)
+    if a + b >= DistVetores then
         return true
     else
         return false

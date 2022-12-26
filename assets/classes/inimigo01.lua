@@ -4,11 +4,13 @@ function Enemy01:new()
 
     self.width = 32
     self.height = 32
+    self.Contato = 16
     self.x = 500 -- love.graphics.getWidth() / 2 - self.width / 2
     self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.raioDeteccao = 200
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
+    self.atacando = false
 
     self.posicao = Vetor(self.x, self.y)
     self.velocidade = Vetor(10, 10)
@@ -33,7 +35,7 @@ function Enemy01:new()
     -- controladores
 
     self.tempo = 0
-    self.aux = 1
+    self.tempoaux = 0
 
 end
 
@@ -41,12 +43,16 @@ function Enemy01:update(dt)
 
     self.tempo = self.tempo + dt
     self:move(dt)
+    self:Attack(dt)
 
 end
 
 function Enemy01:draw()
 
     if self.Hp > 0 then
+
+        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato + 16, self.Contato)
+
 
         -- Status
         love.graphics.setColor(1,0,0)
@@ -63,9 +69,28 @@ function Enemy01:draw()
     end
 end
 
+function Enemy01:Attack(dt)
+
+    if RangeAttack(hero.Contato, self.Contato, hero.posicao, self.posicao) and self.atacando == false then
+        print("mordi")
+        self.tempoaux = self.tempo
+        self.atacando = true
+        hero.Hp = hero.Hp - 20
+        --animacao
+    end
+
+    if self.atacando == true then
+        -- animacao
+        if (self.tempo > self.tempoaux + 3) then
+            self.atacando = false
+        end
+    end
+    
+end
+
 function Enemy01:move(dt)
 
-    if RangeInimigo(self.raioDeteccao, self.posicao, hero.posicao) then
+    if RangeVisao(self.raioDeteccao, self.posicao, hero.posicao) then
         if self.posicao.x > hero.posicao.x then
             self.direcao = -1
             self.direcaoDog = self.direcao
