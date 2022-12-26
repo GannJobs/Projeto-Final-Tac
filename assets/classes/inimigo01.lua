@@ -2,8 +2,6 @@ Enemy01 = Classe:extend()
 
 function Enemy01:new()
 
-    -- atributos
-
     self.width = 32
     self.height = 32
     self.x = 500 -- love.graphics.getWidth() / 2 - self.width / 2
@@ -17,6 +15,12 @@ function Enemy01:new()
     self.vel_desejada = Vetor()
     self.forca_direcao = Vetor()
     self.massa = 1
+
+    -- atributos
+
+    self.Hp = 160
+
+    -- sprites
 
     self.parada = love.graphics.newImage("assets/imagens/inimigo01/repouso.png")
     local grid = anim.newGrid(64, 64, self.parada:getWidth(), self.parada:getHeight())
@@ -41,10 +45,21 @@ function Enemy01:update(dt)
 end
 
 function Enemy01:draw()
-    if self.movimento == true then
-        self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
-    else
+
+    if self.Hp > 0 then
+
+        -- Status
+        love.graphics.setColor(1,0,0)
+        love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
+        love.graphics.setColor(1,1,1)
+
+        -- animaçoes
+
+        if self.movimento == true then
+            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+        else
             love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+        end
     end
 end
 
@@ -63,7 +78,7 @@ function Enemy01:move(dt)
 
         self.aniDogRun:update(dt)
         self.movimento = true
-        
+
         self.vel_desejada = hero.posicao - self.posicao
         self.vel_desejada = self.vel_desejada * 1.3
         self.forca_direcao = self.vel_desejada - self.velocidade

@@ -2,8 +2,6 @@ Enemy02 = Classe:extend()
 
 function Enemy02:new()
 
-    -- atributos
-
     self.width = 32
     self.height = 32
     self.x = 600 -- love.graphics.getWidth() / 2 - self.width / 2
@@ -17,6 +15,12 @@ function Enemy02:new()
     self.vel_desejada = Vetor()
     self.forca_direcao = Vetor()
     self.massa = 5
+
+    -- atributos
+
+    self.Hp = 400
+
+    -- sprites
 
     self.parada = love.graphics.newImage("assets/imagens/inimigo02/parado.png")
     local grid = anim.newGrid(32, 32, self.parada:getWidth(), self.parada:getHeight())
@@ -41,11 +45,24 @@ function Enemy02:update(dt)
 end
 
 function Enemy02:draw()
-    if self.movimento == true then
-        aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
-    else
-        love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+
+    if self.Hp > 0 then
+
+        -- Status
+        love.graphics.setColor(1,0,0)
+        love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
+        love.graphics.setColor(1,1,1)
+
+        -- animaçoes
+
+        if self.movimento == true then
+            aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+        else
+            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+        end
+
     end
+
 end
 
 function Enemy02:move(dt)
@@ -63,7 +80,7 @@ function Enemy02:move(dt)
 
         aniMenRun:update(dt)
         self.movimento = true
-        
+
         self.vel_desejada = hero.posicao - self.posicao
         self.vel_desejada = self.vel_desejada * 1.2
         self.forca_direcao = self.vel_desejada - self.velocidade
