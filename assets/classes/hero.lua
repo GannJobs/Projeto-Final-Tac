@@ -71,11 +71,11 @@ function Hero:update(dt)
     self.posicao.y = self.y
 
     if self.Hp > 0 and self.Hp < 500 then
-        self.Hp = self.Hp + 0.2 -- regeneraçao de vida
+        self.Hp = self.Hp + 0.1 -- regeneraçao de vida
     end
 
     if self.Mana > 0 and self.Mana < 350 then
-        self.Mana = self.Mana + 0.5 -- regeneraçao de mana
+        self.Mana = self.Mana + 0.3 -- regeneraçao de mana
     end
 
 end
@@ -201,7 +201,7 @@ function Hero:Skills(dt)
     end
 
     if love.keyboard.isDown("l") and self.Skill2 == false  and self.Mana - 180 > 0  and self.Cd.skill2 < 0 then
-        self.Cd.skill1 = 8
+        self.Cd.skill2 = 8
         self.Mana = self.Mana - 180
         x2 = self.x
         y2 = self.y

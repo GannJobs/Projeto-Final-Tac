@@ -45,22 +45,6 @@ function Enemy02:update(dt)
         self.tempo = self.tempo + dt
         self:move(dt)
         self:Attack(dt)
-        -- else
-        --     self.width = 0
-        --     self.height = 0
-        --     self.Contato = 0
-        --     self.x = 0 -- love.graphics.getWidth() / 2 - self.width / 2
-        --     self.y = 0 -- love.graphics.getHeight() / 2 - self.height / 2
-        --     self.raioDeteccao = 0
-        --     self.direcao = 0 -- 1 direita / -1 esquerda
-        --     self.movimento = false
-        --     self.atacando = false
-
-        --     self.posicao = 0
-        --     self.velocidade = 0
-        --     self.vel_desejada = 0
-        --     self.forca_direcao = 0
-        --     self.massa = 0
     end
 
 end
@@ -92,7 +76,6 @@ end
 function Enemy02:Attack(dt)
 
     if RangeAttack(hero.Contato, self.Contato, hero.posicao, self.posicao) and self.atacando == false then
-        print("bati")
         self.tempoaux = self.tempo
         self.atacando = true
         hero.Hp = hero.Hp - 40
