@@ -93,14 +93,13 @@ function Hero:draw()
 
         if self.atacando == true then
             self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao, 1, 16, 26)
-
-            love.graphics.setColor(0, 1, 1)
-            love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt) -- area do ataque
-            love.graphics.setColor(1, 1, 1)
         end
 
         if self.Skill1 == true then
-            self.aniSkill01:draw(self.Skill01, x1, y1, -80, 3, 3, 30, 28)
+            if self.direcao == 1 then
+                self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 26)
+            end
+            -- love.graphics.polygon("fill", EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2,EspadaDeEnergia.y2, EspadaDeEnergia.x3, EspadaDeEnergia.y3)
         end
 
         if self.Skill2 == true then
@@ -162,6 +161,14 @@ function Hero:Skills(dt)
         self.tempoaux1 = self.tempo
         self.Skill1 = true
         self.aniSkill01:resume()
+        EspadaDeEnergia = {
+            x1 = x1 - 2,
+            y1 = y1 - 75,
+            x2 = x1 - 30,
+            y2 = y1 + 33,
+            x3 = x1 + 30,
+            y3 = y1 + 33
+        }
     end
 
     if self.Skill1 == true then

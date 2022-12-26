@@ -75,3 +75,23 @@ function circleRect(cx, cy, radius, rx, ry, rw, rh)
     return false;
 
 end
+
+-- colisao do triangulo com o circulo da skill - 1
+function PolyCircle(x1,y1,x2,y2,x3,y3,C,r)
+
+    local collision = LineCircle(x1,y1,x2,y2,C.x,C.y,r)
+    if collision then
+        return true
+    end
+    collision = LineCircle(x1,y1,x3,y3,C.x,C.y,r)
+    if collision then
+        return true
+    end
+    collision = LineCircle(x2,y2,x3,y3,C.x,C.y,r)
+    if collision then
+        return true
+    end
+    return false
+    
+end
+-- 
