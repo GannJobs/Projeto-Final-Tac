@@ -54,6 +54,11 @@ function Hero:new()
     self.tempoaux1 = 0
     self.tempoaux2 = 0
 
+    self.Cd = {
+        skill1 = 0,
+        skill2 = 0
+    }
+
 end
 
 function Hero:update(dt)
@@ -162,7 +167,8 @@ end
 
 function Hero:Skills(dt)
 
-    if love.keyboard.isDown("k") and self.Skill1 == false and self.Mana - 120 > 0 then
+    if love.keyboard.isDown("k") and self.Skill1 == false and self.Mana - 120 > 0 and self.Cd.skill1 < 0 then
+        self.Cd.skill1 = 5
         self.Mana = self.Mana - 120
         x1 = self.x
         y1 = self.y
@@ -180,6 +186,10 @@ function Hero:Skills(dt)
         -- verificacao de colisao
     end
 
+    if self.Cd.skill1 >= 0 then
+        self.Cd.skill1 = self.Cd.skill1 - dt
+    end
+
     if self.Skill1 == true then
         self.aniSkill01:update(dt)
         if (self.tempo > self.tempoaux1 + 1.35) then
@@ -190,7 +200,8 @@ function Hero:Skills(dt)
         end
     end
 
-    if love.keyboard.isDown("l") and self.Skill2 == false  and self.Mana - 180 > 0 then
+    if love.keyboard.isDown("l") and self.Skill2 == false  and self.Mana - 180 > 0  and self.Cd.skill2 < 0 then
+        self.Cd.skill1 = 8
         self.Mana = self.Mana - 180
         x2 = self.x
         y2 = self.y
@@ -201,6 +212,10 @@ function Hero:Skills(dt)
             posicao = Vetor(x2,y2),
             raio = 140
         }
+    end
+
+    if self.Cd.skill2 >= 0 then
+        self.Cd.skill2 = self.Cd.skill2 - dt
     end
 
     if self.Skill2 == true then
