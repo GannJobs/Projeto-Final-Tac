@@ -79,31 +79,59 @@ end
 
 -- colisao do triangulo com o circulo da skill - 1
 
-function distance_to_line(point, line)
-    local A, B, C = line[1], line[2], point
-    local d = math.abs((A.x - C.x) * (B.y - C.y) - (A.y - C.y) * (B.x - C.x)) /
-      math.sqrt((B.y - C.y) ^ 2 + (B.x - C.x) ^ 2)
-    return d
-  end
+-- Function to check collision between triangle and circle
+function TriangleCircle(ax, ay, bx, by, cx, cy, dx, dy, r)
+    -- Get the center and radius of the circle
+    local cx, cy, r = dx, dy, r
   
-  -- função para detectar a colisão entre um triângulo e um círculo
-  function triangle_circle_collision(triangle, circle)
-    -- verifica se o centro do círculo está dentro do triângulo
-    if point_in_triangle(circle.center, triangle) then
+    -- Get the vertices of the triangle
+    local ax, ay = ax, ay
+    local bx, by = bx, by
+    local cx, cy = cx, cy
+  
+    -- Check if the center of the circle is inside the triangle
+    if pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy) then
       return true
     end
   
-    -- verifica se algum lado do triângulo atravessa o círculo
-    for i = 1, 3 do
-      local j = (i % 3) + 1
-      local side = {triangle[i], triangle[j]}
-      local d = distance_to_line(circle.center, side)
-      if d < circle.radius then
-        return true
-      end
+    -- Check if any of the edges of the triangle intersect with the circle
+    if lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r) then
+      return true
+    end
+    if lineCircleIntersection(bx, by, cx, cy, ax, ay, dx, dy, r) then
+      return true
+    end
+    if lineCircleIntersection(cx, cy, ax, ay, bx, by, dx, dy, r) then
+      return true
     end
   
+    -- No collision
     return false
   end
   
+  -- Function to check if a point is inside a triangle
+  function pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy)
+    -- Compute the barycentric coordinates of the point
+    local u = ((cx - bx)*(dy - by) - (cy - by)*(dx - bx)) / ((cy - by)*(ax - bx) - (cx - bx)*(ay - by))
+    local v = ((ax - cx)*(dy - cy) - (ay - cy)*(dx - cx)) / ((by - cy)*(ax - cx) - (ay - cy)*(bx - cx))
+    local w = 1 - u - v
+  
+    -- Check if the point is inside the triangle
+    if u >= 0 and v >= 0 and w >= 0 then
+      return true
+    end
+    return false
+  end
+  
+  -- Function to check if a line intersects with a circle
+  function lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r)
+    -- Compute the distance between the line and the center of the circle
+    local dist = math.abs((dy - cy)*(bx - ax) - (dx - cx)*(by - ay)) / math.sqrt((by - ay)^2 + (bx - ax)^2)
+  
+    -- Check if the distance is less than the radius of the circle
+    if dist < r then
+      return true
+    end
+    return false
+  end
 -- 

@@ -147,10 +147,10 @@ function Hero:Attack(dt)
             }
         end
         if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
-            enemy01.Hp = enemy01.Hp - 25
+            enemy01.Hp = enemy01.Hp - 15
         end
         if circleRect(enemy02.posicao.x, enemy02.posicao.y, enemy02.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
-            enemy02.Hp = enemy02.Hp - 40
+            enemy02.Hp = enemy02.Hp - 20
         end
 
     end
@@ -179,13 +179,18 @@ function Hero:Skills(dt)
         self.aniSkill01:resume()
         EspadaDeEnergia = {
             x1 = x1 - 2,
-            y1 = y1 - 75,
-            x2 = x1 - 30,
-            y2 = y1 + 33,
-            x3 = x1 + 30,
-            y3 = y1 + 33
+            y1 = y1 - 80,
+            x2 = x1 - 35,
+            y2 = y1 + 35,
+            x3 = x1 + 35,
+            y3 = y1 + 35
         }
-        -- verificacao de colisao
+        if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2,EspadaDeEnergia.y2, EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.posicao.x,enemy01.posicao.y,enemy01.Contato) then
+            enemy01.Hp = enemy01.Hp - 40
+        end
+        if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2,EspadaDeEnergia.y2, EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.posicao.x,enemy02.posicao.y,enemy02.Contato) then
+            enemy02.Hp = enemy02.Hp - 60
+        end
     end
 
     if self.Cd.skill1 >= 0 then
