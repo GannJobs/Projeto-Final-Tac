@@ -35,7 +35,7 @@ function Enemy01:new()
 
     self.mordida = love.graphics.newImage("assets/imagens/inimigo01/ataqueDog.png")
     local grid = anim.newGrid(64, 64, self.mordida:getWidth(), self.mordida:getHeight())
-    self.aniMordida = anim.newAnimation(grid('1-2', 1,'1-2', 2,'1-2', 3), 0.1)
+    self.aniMordida = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2', 3), 0.1)
 
     -- controladores
 
@@ -49,7 +49,10 @@ function Enemy01:update(dt)
     if self.Hp > 0 then
         self.tempo = self.tempo + dt
         self:move(dt)
-        self:Attack(dt)
+        if hero.visivel then
+            self:Attack(dt)
+        end
+
     end
 
 end
@@ -69,13 +72,13 @@ function Enemy01:draw()
         -- animaçoes
 
         if self.movimento == true and self.atacando == false then
-            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32,16)
+            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
         else
-            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32, 16)
+            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
         end
 
         if self.atacando == true then
-            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32, 16)
+            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
         end
     end
 end

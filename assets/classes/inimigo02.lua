@@ -34,8 +34,8 @@ function Enemy02:new()
     self.aniMenRun = anim.newAnimation(grid('1-2', 1, '1-2', 2), 0.1)
 
     self.cortar = love.graphics.newImage("assets/imagens/inimigo02/ataqueMen.png")
-    local grid = anim.newGrid(64,64, self.cortar:getWidth(), self.cortar:getHeight())
-    self.aniMenAttack = anim.newAnimation(grid('1-3', 1,'1-3', 2,'1-3', 3,'1-1', 4), 0.1)
+    local grid = anim.newGrid(64, 64, self.cortar:getWidth(), self.cortar:getHeight())
+    self.aniMenAttack = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-3', 3, '1-1', 4), 0.1)
 
     -- controladores
 
@@ -49,7 +49,9 @@ function Enemy02:update(dt)
     if self.Hp > 0 then
         self.tempo = self.tempo + dt
         self:move(dt)
-        self:Attack(dt)
+        if hero.visivel then
+            self:Attack(dt)
+        end
     end
 
 end
@@ -69,13 +71,13 @@ function Enemy02:draw()
         -- animaçoes
 
         if self.movimento == true and self.atacando == false then
-            self.aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 16, 0)
+            self.aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen * 2, 2, 16, 0)
         else
-            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 16, 0)
+            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen * 2, 2, 16, 0)
         end
 
         if self.atacando == true then
-            self.aniMenAttack:draw(self.cortar, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 32, 16)
+            self.aniMenAttack:draw(self.cortar, self.posicao.x, self.posicao.y, 0, self.direcaoMen * 2, 2, 32, 16)
         end
 
     end
