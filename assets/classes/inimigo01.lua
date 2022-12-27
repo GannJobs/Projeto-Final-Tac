@@ -58,10 +58,10 @@ function Enemy01:draw()
 
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
+        -- love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
 
         -- Status
-        
+
         love.graphics.setColor(1, 0, 0)
         love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
         love.graphics.setColor(1, 1, 1)
@@ -91,8 +91,10 @@ function Enemy01:Attack(dt)
 
     if self.atacando == true then
         self.aniMordida:update(dt)
-        if (self.tempo > self.tempoaux + 3) then
+        if self.tempo > self.tempoaux + 0.5 then
             self.aniMordida:pauseAtStart()
+        end
+        if (self.tempo > self.tempoaux + 3) then
             self.atacando = false
         end
     end

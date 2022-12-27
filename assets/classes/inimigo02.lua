@@ -58,7 +58,7 @@ function Enemy02:draw()
 
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
+        -- love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
 
         -- Status
 
@@ -93,8 +93,10 @@ function Enemy02:Attack(dt)
 
     if self.atacando == true then
         self.aniMenAttack:update(dt)
-        if (self.tempo > self.tempoaux + 2) then
+        if self.tempo > self.tempoaux + 1 then
             self.aniMenAttack:pauseAtStart()
+        end
+        if (self.tempo > self.tempoaux + 2) then
             self.atacando = false
         end
     end

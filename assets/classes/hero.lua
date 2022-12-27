@@ -83,7 +83,8 @@ end
 function Hero:draw()
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
+        --love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
+
         -- Status
 
         love.graphics.setColor(1, 0, 0)
@@ -103,6 +104,7 @@ function Hero:draw()
 
         if self.Skill2 == true then
             self.aniSkill02:draw(self.Skill02, x2, y2, 0, 5, 5, 32, 28)
+            -- love.graphics.circle("fill", x2, y2, TempestadeDeChamas.raio)
         end
 
         if self.movimento == true and self.atacando == false then

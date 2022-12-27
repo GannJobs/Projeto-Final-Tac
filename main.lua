@@ -24,6 +24,7 @@ function love.draw()
     hero:draw()
     enemy01:draw()
     enemy02:draw()
+    love.graphics.setBackgroundColor(255,255,255)
 end
 
 function RangeVisao(a, Va, Vb)
