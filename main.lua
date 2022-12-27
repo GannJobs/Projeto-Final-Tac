@@ -3,6 +3,9 @@ function love.load()
     Vetor = require "assets/Recursos/vector"
     anim = require "assets.Recursos.anim8"
 
+    camera = require "assets.Recursos.camera"
+    cam = camera()
+
     require "assets/classes.hero"
     hero = Hero()
 
@@ -18,13 +21,26 @@ function love.update(dt)
     hero:update(dt)
     enemy01:update(dt)
     enemy02:update(dt)
+
+    cam:lookAt(hero.x, hero.y)
 end
 
 function love.draw()
-    hero:draw()
-    enemy01:draw()
-    enemy02:draw()
-    love.graphics.setBackgroundColor(255,255,255)
+    cam:attach()
+        hero:draw()
+        enemy01:draw()
+        enemy02:draw()
+        love.graphics.setBackgroundColor(230, 0.5, 230)
+    cam:detach()
+    -- Status
+
+    love.graphics.setColor(1, 0, 0)
+    love.graphics.rectangle("fill", 10, 10, hero.Hp, 10) -- hp
+    love.graphics.setColor(1, 1, 1)
+
+    love.graphics.setColor(0, 0, 1)
+    love.graphics.rectangle("fill", 10, 30, hero.Mana, 10) -- mana
+    love.graphics.setColor(1, 1, 1)
 end
 
 function RangeVisao(a, Va, Vb)
@@ -83,55 +99,55 @@ end
 function TriangleCircle(ax, ay, bx, by, cx, cy, dx, dy, r)
     -- Get the center and radius of the circle
     local cx, cy, r = dx, dy, r
-  
+
     -- Get the vertices of the triangle
     local ax, ay = ax, ay
     local bx, by = bx, by
     local cx, cy = cx, cy
-  
+
     -- Check if the center of the circle is inside the triangle
     if pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy) then
-      return true
+        return true
     end
-  
+
     -- Check if any of the edges of the triangle intersect with the circle
     if lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r) then
-      return true
+        return true
     end
     if lineCircleIntersection(bx, by, cx, cy, ax, ay, dx, dy, r) then
-      return true
+        return true
     end
     if lineCircleIntersection(cx, cy, ax, ay, bx, by, dx, dy, r) then
-      return true
+        return true
     end
-  
+
     -- No collision
     return false
-  end
-  
-  -- Function to check if a point is inside a triangle
-  function pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy)
+end
+
+-- Function to check if a point is inside a triangle
+function pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy)
     -- Compute the barycentric coordinates of the point
-    local u = ((cx - bx)*(dy - by) - (cy - by)*(dx - bx)) / ((cy - by)*(ax - bx) - (cx - bx)*(ay - by))
-    local v = ((ax - cx)*(dy - cy) - (ay - cy)*(dx - cx)) / ((by - cy)*(ax - cx) - (ay - cy)*(bx - cx))
+    local u = ((cx - bx) * (dy - by) - (cy - by) * (dx - bx)) / ((cy - by) * (ax - bx) - (cx - bx) * (ay - by))
+    local v = ((ax - cx) * (dy - cy) - (ay - cy) * (dx - cx)) / ((by - cy) * (ax - cx) - (ay - cy) * (bx - cx))
     local w = 1 - u - v
-  
+
     -- Check if the point is inside the triangle
     if u >= 0 and v >= 0 and w >= 0 then
-      return true
+        return true
     end
     return false
-  end
-  
-  -- Function to check if a line intersects with a circle
-  function lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r)
+end
+
+-- Function to check if a line intersects with a circle
+function lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r)
     -- Compute the distance between the line and the center of the circle
-    local dist = math.abs((dy - cy)*(bx - ax) - (dx - cx)*(by - ay)) / math.sqrt((by - ay)^2 + (bx - ax)^2)
-  
+    local dist = math.abs((dy - cy) * (bx - ax) - (dx - cx) * (by - ay)) / math.sqrt((by - ay) ^ 2 + (bx - ax) ^ 2)
+
     -- Check if the distance is less than the radius of the circle
     if dist < r then
-      return true
+        return true
     end
     return false
-  end
+end
 -- 

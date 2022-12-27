@@ -62,6 +62,9 @@ function Hero:new()
 end
 
 function Hero:update(dt)
+
+    cam:lookAt(hero.x,hero.y)
+
     self.tempo = self.tempo + dt
     self:mov(dt)
     self:Skills(dt)
@@ -85,16 +88,6 @@ function Hero:draw()
 
         --love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
 
-        -- Status
-
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle("fill", 10, 10, self.Hp, 10) -- hp
-        love.graphics.setColor(1, 1, 1)
-
-        love.graphics.setColor(0, 0, 1)
-        love.graphics.rectangle("fill", 10, 30, self.Mana, 10) -- mana
-        love.graphics.setColor(1, 1, 1)
-
         -- animaçoes
 
         if self.Skill1 == true then
@@ -117,7 +110,9 @@ function Hero:draw()
 
         if self.atacando == true then
             self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao*2, 2, 16, 26)
+            love.graphics.rectangle("fill", Corte.x,Corte.y,Corte.whidt,Corte.heigt)
         end
+
     end
 
     love.graphics.setColor(0, 1, 0)
@@ -134,16 +129,16 @@ function Hero:Attack(dt)
         if self.direcao == 1 then
             Corte = {
                 x = self.x + 16,
-                y = self.y - 32,
-                whidt = 32,
-                heigt = 64
+                y = self.y - 64,
+                whidt = 64,
+                heigt = 128
             }
         else
             Corte = {
-                x = self.x - 48,
-                y = self.y - 32,
-                whidt = 32,
-                heigt = 64
+                x = self.x - 80,
+                y = self.y - 64,
+                whidt = 64,
+                heigt = 128
             }
         end
         if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
