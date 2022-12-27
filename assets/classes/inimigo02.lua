@@ -4,13 +4,14 @@ function Enemy02:new()
 
     self.width = 32
     self.height = 32
-    self.Contato = 16
+    self.Contato = 32
     self.x = 600 -- love.graphics.getWidth() / 2 - self.width / 2
     self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.raioDeteccao = 300
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.atacando = false
+    self.direcaoMen = 1
 
     self.posicao = Vetor(self.x, self.y)
     self.velocidade = Vetor(20, 20)
@@ -68,13 +69,13 @@ function Enemy02:draw()
         -- animaçoes
 
         if self.movimento == true and self.atacando == false then
-            self.aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+            self.aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 16, 0)
         else
-            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 16, 0)
         end
 
         if self.atacando == true then
-            self.aniMenAttack:draw(self.cortar, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 32, 16)
+            self.aniMenAttack:draw(self.cortar, self.posicao.x, self.posicao.y, 0, self.direcaoMen*2, 2, 32, 16)
         end
 
     end

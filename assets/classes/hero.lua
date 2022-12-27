@@ -4,7 +4,7 @@ function Hero:new()
 
     self.width = 32
     self.height = 32
-    self.Contato = 16
+    self.Contato = 32
     self.x = 200
     self.y = 200
     self.posicao = Vetor(self.x, self.y)
@@ -96,25 +96,25 @@ function Hero:draw()
 
         -- animaçoes
 
-        if self.movimento == true and self.atacando == false then
-            self.aniHeroMove:draw(self.andando, self.x, self.y, 0, self.direcao, 1, 16, 0)
-        else
-            if self.atacando == false then
-                love.graphics.draw(self.parada, self.x, self.y, 0, self.direcao, 1, 16, 0)
-            end
-        end
-
-        if self.atacando == true then
-            self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao, 1, 16, 26)
-        end
-
         if self.Skill1 == true then
-            self.aniSkill01:draw(self.Skill01, x1, y1, 0, 3, 3, 32, 26)
+            self.aniSkill01:draw(self.Skill01, x1, y1, 0, 4, 4, 32, 26)
             -- love.graphics.polygon("fill", EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2,EspadaDeEnergia.y2, EspadaDeEnergia.x3, EspadaDeEnergia.y3)
         end
 
         if self.Skill2 == true then
-            self.aniSkill02:draw(self.Skill02, x2, y2, 0, 4, 4, 32, 28)
+            self.aniSkill02:draw(self.Skill02, x2, y2, 0, 5, 5, 32, 28)
+        end
+
+        if self.movimento == true and self.atacando == false then
+            self.aniHeroMove:draw(self.andando, self.x, self.y, 0, self.direcao*2, 2, 16, 0)
+        else
+            if self.atacando == false then
+                love.graphics.draw(self.parada, self.x, self.y, 0, self.direcao*2, 2, 16, 0)
+            end
+        end
+
+        if self.atacando == true then
+            self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao*2, 2, 16, 26)
         end
     end
 

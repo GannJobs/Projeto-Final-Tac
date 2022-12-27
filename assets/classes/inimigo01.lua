@@ -4,13 +4,14 @@ function Enemy01:new()
 
     self.width = 32
     self.height = 32
-    self.Contato = 16
+    self.Contato = 32
     self.x = 500 -- love.graphics.getWidth() / 2 - self.width / 2
     self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.raioDeteccao = 200
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.atacando = false
+    self.direcaoDog = 1
 
     self.posicao = Vetor(self.x, self.y)
     self.velocidade = Vetor(10, 10)
@@ -57,9 +58,10 @@ function Enemy01:draw()
 
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato + 16, self.Contato)
+        love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
 
         -- Status
+        
         love.graphics.setColor(1, 0, 0)
         love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
         love.graphics.setColor(1, 1, 1)
@@ -67,13 +69,13 @@ function Enemy01:draw()
         -- animaçoes
 
         if self.movimento == true and self.atacando == false then
-            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32,16)
         else
-            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32, 16)
         end
 
         if self.atacando == true then
-            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog*2, 2, 32, 16)
         end
     end
 end
