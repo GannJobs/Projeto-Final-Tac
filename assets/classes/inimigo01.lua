@@ -32,6 +32,10 @@ function Enemy01:new()
     local grid = anim.newGrid(64, 64, self.andando:getWidth(), self.andando:getHeight())
     self.aniDogRun = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-2', 3), 0.1)
 
+    self.mordida = love.graphics.newImage("assets/imagens/inimigo01/ataqueDog.png")
+    local grid = anim.newGrid(64, 64, self.mordida:getWidth(), self.mordida:getHeight())
+    self.aniMordida = anim.newAnimation(grid('1-2', 1,'1-2', 2,'1-2', 3), 0.1)
+
     -- controladores
 
     self.tempo = 0
@@ -62,10 +66,14 @@ function Enemy01:draw()
 
         -- animaçoes
 
-        if self.movimento == true then
+        if self.movimento == true and self.atacando == false then
             self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
         else
             love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
+        end
+
+        if self.atacando == true then
+            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog, 1, 32, 0)
         end
     end
 end
@@ -76,12 +84,13 @@ function Enemy01:Attack(dt)
         self.tempoaux = self.tempo
         self.atacando = true
         hero.Hp = hero.Hp - 20
-        -- animacao
+        self.aniMordida:resume()
     end
 
     if self.atacando == true then
-        -- animacao
+        self.aniMordida:update(dt)
         if (self.tempo > self.tempoaux + 3) then
+            self.aniMordida:pauseAtStart()
             self.atacando = false
         end
     end

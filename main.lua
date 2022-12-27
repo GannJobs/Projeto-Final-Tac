@@ -77,21 +77,32 @@ function circleRect(cx, cy, radius, rx, ry, rw, rh)
 end
 
 -- colisao do triangulo com o circulo da skill - 1
-function PolyCircle(x1,y1,x2,y2,x3,y3,C,r)
 
-    local collision = LineCircle(x1,y1,x2,y2,C.x,C.y,r)
-    if collision then
-        return true
+function distance_to_line(point, line)
+    local A, B, C = line[1], line[2], point
+    local d = math.abs((A.x - C.x) * (B.y - C.y) - (A.y - C.y) * (B.x - C.x)) /
+      math.sqrt((B.y - C.y) ^ 2 + (B.x - C.x) ^ 2)
+    return d
+  end
+  
+  -- função para detectar a colisão entre um triângulo e um círculo
+  function triangle_circle_collision(triangle, circle)
+    -- verifica se o centro do círculo está dentro do triângulo
+    if point_in_triangle(circle.center, triangle) then
+      return true
     end
-    collision = LineCircle(x1,y1,x3,y3,C.x,C.y,r)
-    if collision then
+  
+    -- verifica se algum lado do triângulo atravessa o círculo
+    for i = 1, 3 do
+      local j = (i % 3) + 1
+      local side = {triangle[i], triangle[j]}
+      local d = distance_to_line(circle.center, side)
+      if d < circle.radius then
         return true
+      end
     end
-    collision = LineCircle(x2,y2,x3,y3,C.x,C.y,r)
-    if collision then
-        return true
-    end
+  
     return false
-    
-end
+  end
+  
 -- 

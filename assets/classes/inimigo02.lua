@@ -26,11 +26,15 @@ function Enemy02:new()
 
     self.parada = love.graphics.newImage("assets/imagens/inimigo02/parado.png")
     local grid = anim.newGrid(32, 32, self.parada:getWidth(), self.parada:getHeight())
-    aniMenStop = anim.newAnimation(grid('1-1', 1), 0.1)
+    self.aniMenStop = anim.newAnimation(grid('1-1', 1), 0.1)
 
     self.andando = love.graphics.newImage("assets/imagens/inimigo02/andando.png")
     local grid = anim.newGrid(32, 32, self.andando:getWidth(), self.andando:getHeight())
-    aniMenRun = anim.newAnimation(grid('1-2', 1, '1-2', 2), 0.1)
+    self.aniMenRun = anim.newAnimation(grid('1-2', 1, '1-2', 2), 0.1)
+
+    self.cortar = love.graphics.newImage("assets/imagens/inimigo02/ataqueMen.png")
+    local grid = anim.newGrid(64,64, self.cortar:getWidth(), self.cortar:getHeight())
+    self.aniMenAttack = anim.newAnimation(grid('1-3', 1,'1-3', 2,'1-3', 3,'1-1', 4), 0.1)
 
     -- controladores
 
@@ -63,10 +67,14 @@ function Enemy02:draw()
 
         -- animaçoes
 
-        if self.movimento == true then
-            aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+        if self.movimento == true and self.atacando == false then
+            self.aniMenRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
         else
             love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 16, 0)
+        end
+
+        if self.atacando == true then
+            self.aniMenAttack:draw(self.cortar, self.posicao.x, self.posicao.y, 0, self.direcaoMen, 1, 32, 16)
         end
 
     end
@@ -79,12 +87,13 @@ function Enemy02:Attack(dt)
         self.tempoaux = self.tempo
         self.atacando = true
         hero.Hp = hero.Hp - 40
-        -- animacao
+        self.aniMenAttack:resume()
     end
 
     if self.atacando == true then
-        -- animacao
+        self.aniMenAttack:update(dt)
         if (self.tempo > self.tempoaux + 2) then
+            self.aniMenAttack:pauseAtStart()
             self.atacando = false
         end
     end
@@ -104,7 +113,7 @@ function Enemy02:move(dt)
 
         end
 
-        aniMenRun:update(dt)
+        self.aniMenRun:update(dt)
         self.movimento = true
 
         self.vel_desejada = hero.posicao - self.posicao
