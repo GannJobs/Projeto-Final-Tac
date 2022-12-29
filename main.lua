@@ -6,6 +6,9 @@ function love.load()
     --sti = require 'assets/Recursos/sti'
     --gameMap = sti('assets/imagens/Map/map.lua', a, 1, 1)
 
+    cenario = require "assets.classes.cenario"
+    cenario = Cenario()
+
     camera = require "assets.Recursos.camera"
     cam = camera()
 
@@ -34,6 +37,7 @@ end
 
 function love.draw()
     cam:attach()
+        cenario:draw()
         npc:draw()
         hero:draw()
         enemy01:draw()
