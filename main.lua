@@ -34,10 +34,10 @@ end
 
 function love.draw()
     cam:attach()
+        npc:draw()
         hero:draw()
         enemy01:draw()
         enemy02:draw()
-        npc:draw()
     cam:detach()
 
     --gameMap:draw(1,1,1,1)

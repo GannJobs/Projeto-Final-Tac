@@ -90,7 +90,7 @@ end
 function Hero:draw()
     if self.Hp > 0 then
 
-        love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
+        -- love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
 
         -- animaçoes
 

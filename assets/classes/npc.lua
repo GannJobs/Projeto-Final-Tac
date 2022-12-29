@@ -5,37 +5,33 @@ function NPC:new()
     self.RaioDeChat = 64
     self.x = 200
     self.y = 400
-    self.width = 32
-    self.height = 32
     self.posicao = Vetor(self.x, self.y)
 
     self.direcao = hero.direcao -- 1 direita / -1 esquerda
-    self.aberto = false
     self.visivel = false
     self.RangeMenu = false
-    self.selecao = false
+    self.chat = false
 
     self.botao = {
         posicao = Vetor(0, 0),
         raio = 0
     }
 
-    -- movimentacao
+    -- sprites 
 
     self.parado = love.graphics.newImage("assets/imagens/npc/NPC.png")
     local grid = anim.newGrid(32, 32, self.parado:getWidth(), self.parado:getHeight())
     self.Descanso = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2', 3), 0.1)
 
-    -- auxiliar
-
-    self.timer = 0
-    self.timeraux = 0
+    self.Botao = love.graphics.newImage("assets/imagens/Recursos/botao.png")
+    local grid = anim.newGrid(32, 32, self.Botao:getWidth(), self.Botao:getHeight())
+    self.Opcao = anim.newAnimation(grid('1-2', 1, '1-2', 2), 0.2)
 
 end
 
 function NPC:update(dt)
 
-    self.timer = self.timer + dt
+    self.direcao = hero.direcao * -1
     self.Descanso:update(dt)
 
     if RangeAttack(self.RaioDeChat, hero.Contato, self.posicao, hero.posicao) then
@@ -46,32 +42,40 @@ function NPC:update(dt)
             raio = 10
         }
 
-    else
-        self.RangeMenu = false
-    end
-
-    if MouseSelection(self.slots[i].Swidth, self.slots[i].Sheight, self.slots[i].Sx, self.slots[i].Sy)then
-        if love.mouse.isDown(1, 2, 3) then
-            self.selecao = true
-            self.escolha = i
-            if self.opcoes[self.escolha].criada and self.opcoes[self.escolha].level == 2 then
-                self.selecao = false
-                self.escolha = 0
-            end
+        self.Opcao:update(dt)
+        if love.keyboard.isDown("e") then
+            self.chat = true
         end
+
+    else
+        self.chat = false
+        self.RangeMenu = false
     end
 
 end
 
 function NPC:draw()
-    self.Descanso:draw(self.parado, self.posicao.x, self.posicao.y, 0, self.direcao * 2, 2, 16, 0)
-    
-    if self.RangeMenu then
+    self.Descanso:draw(self.parado, self.posicao.x, self.posicao.y, 0, self.direcao * 2.5, 2.5, 16, 0)
 
-        love.graphics.circle("line", self.botao.posicao.x, self.botao.posicao.y + self.RaioDeChat, self.RaioDeChat)
-        love.graphics.setColor(0, 0, 1)
-        love.graphics.circle("fill", self.botao.posicao.x, self.botao.posicao.y, self.botao.raio)
+    if self.RangeMenu and self.chat == false then
+
+        -- love.graphics.circle("line", self.botao.posicao.x, self.botao.posicao.y + self.RaioDeChat, self.RaioDeChat)
+        self.Opcao:draw(self.Botao, self.botao.posicao.x, self.botao.posicao.y, 0, 1, 1, 16 , 0)
+    end
+    if self.chat then
+        love.graphics.setColor(0.5, 0.5, 0.5)
+        love.graphics.rectangle("fill", self.x - 210, self.y - 160, 430, 150)
         love.graphics.setColor(1, 1, 1)
+love.graphics.print("Olá caçador, vejo que enfim chegou ao seu destino, logo mais a"..
+                  "\nfrente encontrará o esconderijo do lobisomen que você caça a anos."..
+                  "\nEstou aqui para prevenir que consiga fazer o seu trabalho"..
+                  "\na ordem tem grande apreço por você, por isso preciso que faça algo"..
+                  "\nantes para nos, e para você também, deste jeito nunca derrotará"..
+                  "\no seu inimigo, está fraco, mas em seu lar, existem 2 reliquias"..
+                  "\nque possuem poderes sagrados, a espada da punição, e o fogo do"..
+                  "\ninferno, recupere ambas, use-as em seu favor, mate a fera, e as"..
+                  "\ndevolva para nos, e isto não é uma opção...(siga em frente)",
+        self.x - 200,self.y - 150)
 
     end
 end
