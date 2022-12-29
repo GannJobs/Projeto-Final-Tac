@@ -132,4 +132,5 @@ function Enemy02:move(dt)
     else
         self.movimento = false
     end
+    
 end

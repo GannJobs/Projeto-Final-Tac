@@ -90,7 +90,7 @@ end
 function Hero:draw()
     if self.Hp > 0 then
 
-        -- love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
+        love.graphics.circle("fill", self.x, self.y + self.Contato, self.Contato)
 
         -- animaçoes
 
@@ -114,7 +114,7 @@ function Hero:draw()
 
         if self.atacando == true then
             self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao * 2, 2, 16, 26)
-            love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt)
+            --love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt)
         end
 
     end
