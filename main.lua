@@ -12,6 +12,9 @@ function love.load()
     camera = require "assets.Recursos.camera"
     cam = camera()
 
+    require "assets.classes.boss"
+    boss = Boss()
+
     require "assets/classes.hero"
     hero = Hero()
 
@@ -27,6 +30,7 @@ function love.load()
 end
 
 function love.update(dt)
+    boss:update(dt)
     hero:update(dt)
     enemy01:update(dt)
     enemy02:update(dt)
@@ -39,6 +43,7 @@ function love.draw()
     cam:attach()
         cenario:draw()
         npc:draw()
+        boss:draw()
         hero:draw()
         enemy01:draw()
         enemy02:draw()
