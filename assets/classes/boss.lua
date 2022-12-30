@@ -159,7 +159,7 @@ function Boss:Attack(dt)
         self.Cd.Atq1 = 1
         self.tempoaux0 = self.tempo
         self.atacando = true
-        -- hero.Hp = hero.Hp - 100
+        hero.Hp = hero.Hp - 300
         self.aniAtaque1:resume()
     end
     -- ataque 2, Mordida
@@ -167,7 +167,7 @@ function Boss:Attack(dt)
         self.Cd.Atq2 = 1
         self.tempoaux1 = self.tempo
         self.atacando = true
-        -- hero.Hp = hero.Hp - 200
+        hero.Hp = hero.Hp - 500
         self.aniAtaque2:resume()
     end
     -- ataque 3, estocada
@@ -175,7 +175,7 @@ function Boss:Attack(dt)
         self.Cd.Atq3 = 1
         self.tempoaux2 = self.tempo
         self.atacando = true
-        -- hero.Hp = hero.Hp - 300
+        hero.Hp = hero.Hp - 200
         self.aniAtaque3:resume()
         self.dash = true
     end
