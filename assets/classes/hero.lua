@@ -15,7 +15,7 @@ function Hero:new()
 
     -- atributos
 
-    self.Hp = 1000
+    self.Hp = 800
     self.Mana = 350
 
     -- sprites
@@ -83,6 +83,10 @@ function Hero:update(dt)
 
     if self.Mana > 0 and self.Mana < 350 then
         self.Mana = self.Mana + 0.3 -- regeneraçao de mana
+    end
+
+    if self.Hp < 0 then
+        self.visivel = false
     end
 
 end

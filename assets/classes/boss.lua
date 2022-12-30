@@ -60,19 +60,19 @@ function Boss:new()
         Atq1 = 0,
         Atq2 = 0,
         Atq3 = 0,
-        Range1 = 135,
-        Range2 = 250,
-        Range3 = 500
+        Range1 = 90,
+        Range2 = 200,
+        Range3 = 300
     }
 
 end
 
 function Boss:update(dt)
 
-    if self.Hp > 0 then 
+    if self.Hp > 0 and hero.visivel then 
     self.tempo = self.tempo + dt
         self:Move(dt)
-        if self.On and hero.visivel then
+        if self.On then
             self:Attack(dt)
         end
     end
@@ -85,16 +85,16 @@ function Boss:draw()
             -- self.aniBossRun:draw()
         else
             if self.atacando == false then
-                love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss*2, 2*2 , 64, 64) 
+                love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2 , 64, 64) 
             else
                 if self.Cd.Atq1 > 0 then
-                    self.aniAtaque1:draw(self.ataque1, self.posicao.x, self.posicao.y, 0, self.direcaoBoss*2 , 2*2  , 64, 64)
+                    self.aniAtaque1:draw(self.ataque1, self.posicao.x, self.posicao.y, 0, self.direcaoBoss , 2  , 64, 64)
                 else
                     if self.Cd.Atq2 > 0 then
-                        self.aniAtaque2:draw(self.ataque2, self.posicao.x, self.posicao.y, 0, self.direcaoBoss*2 , 2*2  , 64, 64)
+                        self.aniAtaque2:draw(self.ataque2, self.posicao.x, self.posicao.y, 0, self.direcaoBoss , 2  , 64, 64)
                     else
                         if self.Cd.Atq3 > 0 then
-                            self.aniAtaque3:draw(self.ataque3, self.posicao.x, self.posicao.y, 0, self.direcaoBoss*2, 2*2  , 64, 64)
+                            self.aniAtaque3:draw(self.ataque3, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2  , 64, 64)
                         end 
                     end
                 end
@@ -159,7 +159,7 @@ function Boss:Attack(dt)
         self.Cd.Atq1 = 1
         self.tempoaux0 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 300
+        hero.Hp = hero.Hp - 200
         self.aniAtaque1:resume()
     end
     -- ataque 2, Mordida
@@ -167,7 +167,7 @@ function Boss:Attack(dt)
         self.Cd.Atq2 = 1
         self.tempoaux1 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 500
+        hero.Hp = hero.Hp - 400
         self.aniAtaque2:resume()
     end
     -- ataque 3, estocada
@@ -175,7 +175,7 @@ function Boss:Attack(dt)
         self.Cd.Atq3 = 1
         self.tempoaux2 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 200
+        hero.Hp = hero.Hp - 100
         self.aniAtaque3:resume()
         self.dash = true
     end
