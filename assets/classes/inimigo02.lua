@@ -5,8 +5,8 @@ function Enemy02:new()
     self.width = 32
     self.height = 32
     self.Contato = 32
-    self.x = 600 -- love.graphics.getWidth() / 2 - self.width / 2
-    self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
+    self.x = 400 -- love.graphics.getWidth() / 2 - self.width / 2
+    self.y = 1200 -- love.graphics.getHeight() / 2 - self.height / 2
     self.raioDeteccao = 300
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
@@ -46,7 +46,7 @@ end
 
 function Enemy02:update(dt)
 
-    if self.Hp > 0 then
+    if self.Hp > 0 and hero.visivel then
         self.tempo = self.tempo + dt
         self:move(dt)
         if hero.visivel then

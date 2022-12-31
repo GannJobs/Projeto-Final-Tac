@@ -46,7 +46,7 @@ end
 
 function Enemy01:update(dt)
 
-    if self.Hp > 0 then
+    if self.Hp > 0 and hero.visivel then
         self.tempo = self.tempo + dt
         self:move(dt)
         if hero.visivel then

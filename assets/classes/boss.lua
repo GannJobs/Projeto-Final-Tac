@@ -5,13 +5,13 @@ function Boss:new()
     self.width = 128
     self.height = 128
     self.Contato = 128
-    self.x = 1000
-    self.y = 200
+    self.x = 1200
+    self.y = 100
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.On = true
 
-    self.direcaoBoss = 1
+    self.direcaoBoss = 2
     self.posicao = Vetor(self.x, self.y)
     self.velocidade = Vetor(10, 10)
     self.vel_desejada = Vetor()
@@ -88,6 +88,8 @@ function Boss:draw()
 
         if self.movimento == false then
             -- self.aniBossRun:draw()
+            love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
+
         else
             if self.atacando == false then
                 love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
