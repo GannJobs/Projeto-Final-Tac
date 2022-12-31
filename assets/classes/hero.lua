@@ -11,7 +11,7 @@ function Hero:new()
     self.speed = 500
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
-    self.visivel = false
+    self.visivel = true
     self.Has_Skil1 = false
     self.Has_Skil2 = false
 
@@ -23,7 +23,7 @@ function Hero:new()
         if self.Has_Skil1 or self.Has_Skil2 then
             self.Mana = 150
         end
-        self.Hp = 400
+        self.Hp = 40000
         self.Mana = 0
     end
     
@@ -169,11 +169,13 @@ function Hero:Attack(dt)
                 heigt = 128
             }
         end
-        if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
-            enemy01.Hp = enemy01.Hp - 15
+        for i = 1, 3 do
+            if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+                enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
+            end
         end
-        if circleRect(enemy02.posicao.x, enemy02.posicao.y, enemy02.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
-            enemy02.Hp = enemy02.Hp - 20
+        if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            enemy01.Hp = enemy01.Hp - 20
         end
         if circleRect(boss.posicao.x, boss.posicao.y, boss.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
             boss.Hp = boss.Hp - 20
