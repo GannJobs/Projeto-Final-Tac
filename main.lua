@@ -3,9 +3,6 @@ function love.load()
     Vetor = require "assets/Recursos/vector"
     anim = require "assets.Recursos.anim8"
 
-    -- sti = require 'assets/Recursos/sti'
-    -- gameMap = sti('assets/imagens/Map/map.lua', a, 1, 1)
-
     cenario = require "assets.classes.cenario"
     cenario = Cenario()
 
@@ -17,6 +14,9 @@ function love.load()
 
     require "assets/classes.hero"
     hero = Hero()
+
+    require "assets.classes.puzzles"
+    puzzles = Puzzles()
 
     require "assets/classes.inimigo01"
     enemy01 = Enemy01()
@@ -30,6 +30,7 @@ function love.load()
 end
 
 function love.update(dt)
+    puzzles:update(dt)
     boss:update(dt)
     hero:update(dt)
     enemy01:update(dt)
@@ -42,14 +43,13 @@ end
 function love.draw()
     cam:attach()
     cenario:draw()
+    puzzles:draw()
     npc:draw()
     boss:draw()
     hero:draw()
     enemy01:draw()
     enemy02:draw()
     cam:detach()
-
-    -- gameMap:draw(1,1,1,1)
 
     -- Status
 
