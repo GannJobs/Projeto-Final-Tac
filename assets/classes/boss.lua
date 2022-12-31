@@ -5,8 +5,8 @@ function Boss:new()
     self.width = 128
     self.height = 128
     self.Contato = 128
-    self.x = 1200
-    self.y = 100
+    self.x = 902 * 1.5
+    self.y = 250 * 1.5
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.On = true

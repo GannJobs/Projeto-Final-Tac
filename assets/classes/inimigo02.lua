@@ -24,8 +24,8 @@ function Enemy02:new()
 
     for i = 1, 3 do
 
-        local x = love.math.random(20, 500)
-        local y = love.math.random(930, 1230)
+        local x = love.math.random(70, 430) * 1.5
+        local y = love.math.random(1077, 1400) * 1.5
         self.inimigos02[i] = {
             Iwidth = 32,
             Iheight = 32,

@@ -3,8 +3,8 @@ NPC = Classe:extend()
 function NPC:new()
 
     self.RaioDeChat = 64
-    self.x = 1200
-    self.y = 1100
+    self.x = 910 * 1.5
+    self.y = 1200 * 1.5
     self.posicao = Vetor(self.x, self.y)
 
     self.direcao = hero.direcao -- 1 direita / -1 esquerda

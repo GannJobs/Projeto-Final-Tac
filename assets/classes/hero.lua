@@ -5,8 +5,8 @@ function Hero:new()
     self.width = 32
     self.height = 32
     self.Contato = 32
-    self.x = 1200
-    self.y = 1500
+    self.x = 905 * 1.5
+    self.y = 1607 * 1.5
     self.posicao = Vetor(self.x, self.y)
     self.speed = 500
     self.direcao = 1 -- 1 direita / -1 esquerda
