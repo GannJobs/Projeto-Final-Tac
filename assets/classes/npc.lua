@@ -68,7 +68,6 @@ function NPC:draw()
 
     if self.RangeMenu then
 
-        -- love.graphics.circle("line", self.botao.posicao.x, self.botao.posicao.y + self.RaioDeChat, self.RaioDeChat)
         self.Opcao:draw(self.Botao, self.botao.posicao.x, self.botao.posicao.y, 0, 1, 1, 16, 0)
     end
     if self.chat then
@@ -92,7 +91,7 @@ function NPC:draw()
                                     "\nO portão da sala do seu inimigo jurado só se abrirá quando tiver" ..
                                     "\npoder suficiente, então recupere as relíquias primeiro, e se " ..
                                     "\nlembre, a espada espera ver seu nome Scar, e o fogo..." ..
-                                    "\no fogo se lembra, da sua origem.", self.x - 200,
+                                    "\no fogo sente seus semelhantes, mesmo que de longe.", self.x - 200,
                 self.y - 180)
         end
 

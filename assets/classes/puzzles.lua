@@ -26,6 +26,25 @@ function Puzzles:new()
 
     self.Gate2Open = false
 
+    self.apagada = love.graphics.newImage("assets/imagens/Recursos/apagada.png")
+    local grid = anim.newGrid(64,64, self.apagada:getWidth(), self.apagada:getHeight())
+    self.Apagada = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2',3), 0.1)
+
+    self.ascendendo = love.graphics.newImage("assets/imagens/Recursos/ascendendo.png")
+    local grid = anim.newGrid(64,64, self.ascendendo:getWidth(), self.ascendendo:getHeight())
+    self.Ascendendo = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2',3), 0.1)
+
+    self.asceso = love.graphics.newImage("assets/imagens/Recursos/ascesa.png")
+    local grid = anim.newGrid(64,64, self.asceso:getWidth(), self.asceso:getHeight())
+    self.Asceso = anim.newAnimation(grid('1-2', 1, '1-2', 2), 0.1)
+
+    self.fagulha = 0
+    self.AreaFogueira = {
+        x = 1531 * 1.5,
+        y = 620 * 1.5,
+        r = 15
+    }
+
 end
 
 function Puzzles:update(dt)
@@ -53,9 +72,12 @@ function Puzzles:update(dt)
     end
 
     -- 2 Puzzle
-
-    --
-
+    self.Apagada:update(dt)
+    self.Ascendendo:update(dt)
+    self.Asceso:update(dt)
+    if self.fagulha > 5 then
+        self.Gate2Open = true
+    end
 end
 
 function Puzzles:draw()
@@ -112,7 +134,13 @@ function Puzzles:draw()
 
     -- 2 Puzzle
 
-    --
-
-    -- love.graphics.rectangle("fill", 1850 , 930, 530, 400) -- quadrados cachoros
+    if self.fagulha <= 1 then
+        self.Apagada:draw(self.apagada, self.AreaFogueira.x,self.AreaFogueira.y)
+    end
+    if self.fagulha > 1 and self.fagulha <= 5 then
+        self.Ascendendo:draw(self.ascendendo, self.AreaFogueira.x,self.AreaFogueira.y)
+    end
+    if self.fagulha > 5 then
+        self.Asceso:draw(self.asceso, self.AreaFogueira.x,self.AreaFogueira.y)
+    end
 end
