@@ -90,7 +90,8 @@ function NPC:draw()
             love.graphics.print("A esquerda se encontra a reliquia da espada sagrada, a direita o" ..
                                     "\nfogo do inferno, os corredores são zonas neutras e seguras." ..
                                     "\nO portão da sala do seu inimigo jurado só se abrirá quando tiver" ..
-                                    "\npoder suficiente, então recupere as relíquias primeiro", self.x - 200,
+                                    "\npoder suficiente, então recupere as relíquias primeiro, e se " ..
+                                    "\nlembre, a espada ouve seu nome Scar, e o fogo...", self.x - 200,
                 self.y - 180)
         end
 
