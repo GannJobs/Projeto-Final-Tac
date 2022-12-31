@@ -45,6 +45,12 @@ function Puzzles:new()
         r = 15
     }
 
+    -- coleta
+    self.Coleta = {
+        posicao1 = Vetor(244 * 1.5, 189 * 1.5),
+        posicao2 = Vetor(1522 * 1.5, 153 * 1.5),
+        r = 100
+    }
 end
 
 function Puzzles:update(dt)
@@ -77,6 +83,20 @@ function Puzzles:update(dt)
     self.Asceso:update(dt)
     if self.fagulha > 5 then
         self.Gate2Open = true
+    end
+
+    -- coleta Skills
+
+    if self.Gate1Open == true then
+        if RangeAttack(hero.Contato, self.Coleta.r, hero.posicao, self.Coleta.posicao1) and love.keyboard.isDown("e") then
+            hero.Has_Skil1 = true
+        end
+    end
+
+    if self.Gate2Open == true then
+        if RangeAttack(hero.Contato, self.Coleta.r, hero.posicao, self.Coleta.posicao2) and love.keyboard.isDown("e") then
+            hero.Has_Skil2 = true
+        end
     end
 end
 
@@ -142,5 +162,17 @@ function Puzzles:draw()
     end
     if self.fagulha > 5 then
         self.Asceso:draw(self.asceso, self.AreaFogueira.x,self.AreaFogueira.y)
+    end
+
+    if self.Gate1Open == true then
+        if RangeAttack(hero.Contato, self.Coleta.r, hero.posicao, self.Coleta.posicao1) then
+            self.Opcao:draw(self.Botao, self.Coleta.posicao1.x - 15, self.Coleta.posicao1.y - 50)
+        end
+    end
+
+    if self.Gate2Open == true then
+        if RangeAttack(hero.Contato, self.Coleta.r, hero.posicao, self.Coleta.posicao2) then
+            self.Opcao:draw(self.Botao, self.Coleta.posicao2.x - 10, self.Coleta.posicao2.y - 50)
+        end
     end
 end

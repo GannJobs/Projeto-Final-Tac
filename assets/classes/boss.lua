@@ -9,7 +9,7 @@ function Boss:new()
     self.y = 250 * 1.5
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
-    self.On = true
+    self.On = false
 
     self.direcaoBoss = 2
     self.posicao = Vetor(self.x, self.y)

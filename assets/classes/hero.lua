@@ -12,8 +12,8 @@ function Hero:new()
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
-    self.Has_Skil1 = false
-    self.Has_Skil2 = false
+    self.Has_Skil1 = true
+    self.Has_Skil2 = true
     self.lvl = 1
 
     -- atributos
