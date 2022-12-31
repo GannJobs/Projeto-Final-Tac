@@ -32,7 +32,7 @@ function Enemy02:new()
             IContato = 32,
             Ix = x,
             Iy = y,
-            IraioDeteccao = 300,
+            IraioDeteccao = 200,
             Idirecao = 1,
             Imovimento = false,
             Iatacando = false,

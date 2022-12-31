@@ -2,28 +2,11 @@ Enemy01 = Classe:extend()
 
 function Enemy01:new()
 
-    self.width = 32
-    self.height = 32
-    self.Contato = 32
-    self.x = 500 -- love.graphics.getWidth() / 2 - self.width / 2
-    self.y = 200 -- love.graphics.getHeight() / 2 - self.height / 2
-    self.raioDeteccao = 200
-    self.direcao = 1 -- 1 direita / -1 esquerda
-    self.movimento = false
-    self.atacando = false
-    self.direcaoDog = 1
+    -- tabela inimigos 
 
-    self.posicao = Vetor(self.x, self.y)
-    self.velocidade = Vetor(10, 10)
-    self.vel_desejada = Vetor()
-    self.forca_direcao = Vetor()
-    self.massa = 1
+    self.inimigos01 = {}
 
-    -- atributos
-
-    self.Hp = 160
-
-    -- sprites
+    -- sprites de repouso, correr e morder
 
     self.parada = love.graphics.newImage("assets/imagens/inimigo01/repouso.png")
     local grid = anim.newGrid(64, 64, self.parada:getWidth(), self.parada:getHeight())
@@ -37,98 +20,128 @@ function Enemy01:new()
     local grid = anim.newGrid(64, 64, self.mordida:getWidth(), self.mordida:getHeight())
     self.aniMordida = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2', 3), 0.1)
 
-    -- controladores
+
+for i = 1, 3 do
+    local x = love.math.random(1900, 2300)
+    local y = love.math.random(950, 1350)
+
+    self.inimigos01[i] = {
+        width = 32,
+        height = 32,
+        Contato = 32,
+        Dx = x ,
+        Dy = y,
+        raioDeteccao = 250,
+        direcao = 1 ,
+        movimento = false,
+        atacando = false,
+        direcaoDog = 1,
+        Hp = 160,
+        tempoaux = 1,
+    
+        posicao = Vetor(x, y),
+        velocidade = Vetor(10, 10),
+        vel_desejada = Vetor(),
+        forca_direcao = Vetor(),
+        massa = 1,
+        aniDogStop = self.aniDogStop,
+        aniDogRun = self.aniDogRun,
+        aniMordida = self.aniMordida
+    }
+end
 
     self.tempo = 0
-    self.tempoaux = 0
 
 end
 
 function Enemy01:update(dt)
 
-    if self.Hp > 0 and hero.visivel then
-        self.tempo = self.tempo + dt
-        self:move(dt)
-        if hero.visivel then
-            self:Attack(dt)
+    for i = 1, 3 do
+        if self.inimigos01[i].Hp > 0 and hero.visivel then
+            self.tempo = self.tempo + dt
+            self:move(dt)
+            if hero.visivel then
+                self:Attack(dt)
+            end
         end
-
     end
-
 end
 
 function Enemy01:draw()
 
-    if self.Hp > 0 then
+    for i=1 , 3 do
+        if self.inimigos01[i].Hp > 0 then
 
-        -- love.graphics.circle("fill", self.posicao.x, self.posicao.y + self.Contato, self.Contato)
-
-        -- Status
-
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.rectangle("fill", self.posicao.x - self.Hp / 2, self.posicao.y - 12, self.Hp, 6)
-        love.graphics.setColor(1, 1, 1)
-
-        -- animaçoes
-
-        if self.movimento == true and self.atacando == false then
-            self.aniDogRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
-        else
-            love.graphics.draw(self.parada, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
-        end
-
-        if self.atacando == true then
-            self.aniMordida:draw(self.mordida, self.posicao.x, self.posicao.y, 0, self.direcaoDog * 2, 2, 32, 16)
+            -- Status
+    
+            love.graphics.setColor(1, 0, 0)
+            love.graphics.rectangle("fill", self.inimigos01[i].posicao.x - self.inimigos01[i].Hp / 2, self.inimigos01[i].posicao.y - 12, self.inimigos01[i].Hp, 6)
+            love.graphics.setColor(1, 1, 1)
+    
+            -- animaçoes
+    
+            if self.inimigos01[i].movimento == true and self.inimigos01[i].atacando == false then
+                self.inimigos01[i].aniDogRun:draw(self.andando, self.inimigos01[i].posicao.x, self.inimigos01[i].posicao.y, 0, self.inimigos01[i].direcaoDog * 2, 2, 32, 16)
+            else
+                self.inimigos01[i].aniDogStop:draw(self.parada, self.inimigos01[i].posicao.x, self.inimigos01[i].posicao.y, 0, self.inimigos01[i].direcaoDog * 2, 2, 32, 16)
+            end
+    
+            if self.inimigos01[i].atacando == true then
+                self.inimigos01[i].aniMordida:draw(self.mordida, self.inimigos01[i].posicao.x, self.inimigos01[i].posicao.y, 0, self.inimigos01[i].direcaoDog * 2, 2, 32, 16)
+            end
         end
     end
 end
 
 function Enemy01:Attack(dt)
 
-    if RangeAttack(hero.Contato, self.Contato, hero.posicao, self.posicao) and self.atacando == false then
-        self.tempoaux = self.tempo
-        self.atacando = true
-        hero.Hp = hero.Hp - 20
-        self.aniMordida:resume()
-    end
-
-    if self.atacando == true then
-        self.aniMordida:update(dt)
-        if self.tempo > self.tempoaux + 0.5 then
-            self.aniMordida:pauseAtStart()
+    for i=1, 3 do
+        if RangeAttack(hero.Contato,self.inimigos01[i].Contato, hero.posicao,self.inimigos01[i].posicao) and self.inimigos01[i].atacando == false then
+           self.inimigos01[i].tempoaux = self.tempo
+           self.inimigos01[i].atacando = true
+            hero.Hp = hero.Hp - 20
+           self.inimigos01[i].aniMordida:resume()
         end
-        if (self.tempo > self.tempoaux + 3) then
-            self.atacando = false
+    
+        if self.inimigos01[i].atacando == true then
+           self.inimigos01[i].aniMordida:update(dt)
+            if self.tempo >self.inimigos01[i].tempoaux + 0.5 then
+               self.inimigos01[i].aniMordida:pauseAtStart()
+            end
+            if (self.tempo >self.inimigos01[i].tempoaux + 3) then
+               self.inimigos01[i].atacando = false
+            end
         end
     end
-
 end
 
 function Enemy01:move(dt)
 
-    if RangeVisao(self.raioDeteccao, self.posicao, hero.posicao) then
-        if self.posicao.x > hero.posicao.x then
-            self.direcao = -1
-            self.direcaoDog = self.direcao
+    for i=1, 3 do
+        if RangeVisao(self.inimigos01[i].raioDeteccao, self.inimigos01[i].posicao, hero.posicao) then
+            if self.inimigos01[i].posicao.x > hero.posicao.x then
+                self.inimigos01[i].direcao = -1
+                self.inimigos01[i].direcaoDog = self.inimigos01[i].direcao
+            end
+            if self.inimigos01[i].posicao.x < hero.posicao.x then
+                self.inimigos01[i].direcao = 1
+                self.inimigos01[i].direcaoDog = self.inimigos01[i].direcao
+    
+            end
+    
+            self.inimigos01[i].aniDogRun:update(dt)
+            self.inimigos01[i].movimento = true
+    
+            self.inimigos01[i].vel_desejada = (hero.posicao - self.inimigos01[i].posicao)/3
+            self.inimigos01[i].vel_desejada = self.inimigos01[i].vel_desejada * 1.3
+            self.inimigos01[i].forca_direcao = self.inimigos01[i].vel_desejada - self.inimigos01[i].velocidade
+            self.inimigos01[i].velocidade = self.inimigos01[i].velocidade + self.inimigos01[i].forca_direcao / self.inimigos01[i].massa
+            self.inimigos01[i].direcao = self.inimigos01[i].posicao + self.inimigos01[i].velocidade
+            self.inimigos01[i].velocidade = self.inimigos01[i].velocidade
+            self.inimigos01[i].posicao = self.inimigos01[i].posicao + self.inimigos01[i].velocidade * dt
+    
+        else
+            self.inimigos01[i].movimento = false
         end
-        if self.posicao.x < hero.posicao.x then
-            self.direcao = 1
-            self.direcaoDog = self.direcao
-
-        end
-
-        self.aniDogRun:update(dt)
-        self.movimento = true
-
-        self.vel_desejada = hero.posicao - self.posicao
-        self.vel_desejada = self.vel_desejada * 1.3
-        self.forca_direcao = self.vel_desejada - self.velocidade
-        self.velocidade = self.velocidade + self.forca_direcao / self.massa
-        self.direcao = self.posicao + self.velocidade
-        self.velocidade = self.velocidade
-        self.posicao = self.posicao + self.velocidade * dt
-
-    else
-        self.movimento = false
     end
 end
