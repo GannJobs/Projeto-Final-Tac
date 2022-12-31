@@ -173,9 +173,9 @@ function Hero:Attack(dt)
             if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
                 enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
             end
-        end
-        if circleRect(enemy01.posicao.x, enemy01.posicao.y, enemy01.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
-            enemy01.Hp = enemy01.Hp - 20
+            if circleRect(enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+                enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 20
+            end
         end
         if circleRect(boss.posicao.x, boss.posicao.y, boss.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
             boss.Hp = boss.Hp - 20
