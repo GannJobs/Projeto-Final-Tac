@@ -12,11 +12,21 @@ function Hero:new()
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = false
+    self.Has_Skil1 = false
+    self.Has_Skil2 = false
 
     -- atributos
-
-    self.Hp = 1000
-    self.Mana = 350
+    if self.Has_Skil1 and self.Has_Skil2 then
+        self.Hp = 800
+        self.Mana = 450 
+    else
+        if self.Has_Skil1 or self.Has_Skil2 then
+            self.Mana = 150
+        end
+        self.Hp = 400
+        self.Mana = 0
+    end
+    
 
     -- sprites
 
@@ -77,12 +87,22 @@ function Hero:update(dt)
     self.posicao.x = self.x
     self.posicao.y = self.y
 
-    if self.Hp > 0 and self.Hp < 500 then
-        self.Hp = self.Hp + 0.1 -- regeneraçao de vida
-    end
-
-    if self.Mana > 0 and self.Mana < 350 then
-        self.Mana = self.Mana + 0.3 -- regeneraçao de mana
+    if self.Has_Skil1 and self.Has_Skil2 then
+        if self.Hp > 0 and self.Hp < 800 then
+            self.Hp = self.Hp + 0.1 -- regeneraçao de vida buffada
+        end
+        if self.Mana > 0 and self.Mana < 350 then
+            self.Mana = self.Mana + 0.3 -- regeneraçao de mana buffada
+        end
+    else
+        if self.Has_Skil1 or self.Has_Skil2 then
+            if self.Mana > 0 and self.Mana < 350 then
+                self.Mana = self.Mana + 0.1 -- regeneraçao de mana base
+            end
+        end
+        if self.Hp > 0 and self.Hp < 400 then
+            self.Hp = self.Hp + 0.01 -- regeneraçao de vida base
+        end
     end
 
     if self.Hp < 0 then
@@ -174,7 +194,7 @@ end
 
 function Hero:Skills(dt)
 
-    if love.keyboard.isDown("k") and self.Skill1 == false and self.Mana - 120 > 0 and self.Cd.skill1 < 0 then
+    if love.keyboard.isDown("k") and self.Skill1 == false and self.Mana - 120 > 0 and self.Cd.skill1 < 0 and self.Has_Skil1 == true then
         self.Cd.skill1 = 5
         self.Mana = self.Mana - 120
         x1 = self.x
@@ -218,7 +238,7 @@ function Hero:Skills(dt)
         end
     end
 
-    if love.keyboard.isDown("l") and self.Skill2 == false and self.Mana - 180 > 0 and self.Cd.skill2 < 0 then
+    if love.keyboard.isDown("l") and self.Skill2 == false and self.Mana - 180 > 0 and self.Cd.skill2 < 0 and self.Has_Skil2 == true then
         self.Cd.skill2 = 8
         self.Mana = self.Mana - 180
         x2 = self.x
