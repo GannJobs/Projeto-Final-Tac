@@ -69,8 +69,8 @@ end
 
 function Boss:update(dt)
 
-    if self.Hp > 0 and hero.visivel then 
-    self.tempo = self.tempo + dt
+    if self.Hp > 0 and hero.visivel then
+        self.tempo = self.tempo + dt
         self:Move(dt)
         if self.On then
             self:Attack(dt)
@@ -81,41 +81,46 @@ end
 function Boss:draw()
 
     if self.Hp > 0 then
+
+        love.graphics.setColor(1, 0, 0)
+        love.graphics.rectangle("fill", self.posicao.x - 250, self.posicao.y - 110, self.Hp / 10, 30)
+        love.graphics.setColor(1, 1, 1)
+
         if self.movimento == false then
             -- self.aniBossRun:draw()
         else
             if self.atacando == false then
-                love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2 , 64, 64) 
+                love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
             else
                 if self.Cd.Atq1 > 0 then
-                    self.aniAtaque1:draw(self.ataque1, self.posicao.x, self.posicao.y, 0, self.direcaoBoss , 2  , 64, 64)
+                    self.aniAtaque1:draw(self.ataque1, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
+                    -- love.graphics.rectangle("fill", self.AreaAtaque1.x, self.AreaAtaque1.y, self.AreaAtaque1.width, self.AreaAtaque1.height)
                 else
                     if self.Cd.Atq2 > 0 then
-                        self.aniAtaque2:draw(self.ataque2, self.posicao.x, self.posicao.y, 0, self.direcaoBoss , 2  , 64, 64)
+                        self.aniAtaque2:draw(self.ataque2, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64,
+                            64)
+                        -- love.graphics.circle("fill", self.AreaAtaque2.x, self.AreaAtaque2.y, self.AreaAtaque2.raio)
                     else
                         if self.Cd.Atq3 > 0 then
-                            self.aniAtaque3:draw(self.ataque3, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2  , 64, 64)
-                        end 
+                            self.aniAtaque3:draw(self.ataque3, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2,
+                                64, 64)
+                        end
                     end
                 end
             end
         end
     end
+
     -- range 1
-    love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range1)
+    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range1)
     -- range 2
-    love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range2)
+    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range2)
     -- range 3
-    love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range3)
-
-    love.graphics.points(self.posicao.x, self.posicao.y)
-
+    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range3)
 
 end
 
-
 function Boss:Attack(dt)
-    print(self.atacando)
 
     if self.atacando == true then
         if self.Cd.Atq1 > 0 then
@@ -155,31 +160,87 @@ function Boss:Attack(dt)
     end
 
     -- ataque 1, Corte
-    if self.Cd.Atq1 <= 0 and RangeAttack(self.Cd.Range1, hero.Contato, self.posicao, hero.posicao) and self.atacando == false then
+    if self.Cd.Atq1 <= 0 and RangeAttack(self.Cd.Range1, hero.Contato, self.posicao, hero.posicao) and self.atacando ==
+        false then
         self.Cd.Atq1 = 1
         self.tempoaux0 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 200
         self.aniAtaque1:resume()
+        if self.direcaoBoss > 1 then
+            self.AreaAtaque1 = {
+                x = self.posicao.x - 64,
+                y = self.posicao.y - 64,
+                width = 64,
+                height = 128
+            }
+            if circleRect(hero.posicao.x, hero.posicao.y, hero.Contato, self.AreaAtaque1.x, self.AreaAtaque1.y,
+                self.AreaAtaque1.width, self.AreaAtaque1.height) then
+                hero.Hp = hero.Hp - 70
+            end
+        else
+            self.AreaAtaque1 = {
+                x = self.posicao.x,
+                y = self.posicao.y - 64,
+                width = 64,
+                height = 128
+            }
+            if circleRect(hero.posicao.x, hero.posicao.y, hero.Contato, self.AreaAtaque1.x, self.AreaAtaque1.y,
+                self.AreaAtaque1.width, self.AreaAtaque1.height) then
+                hero.Hp = hero.Hp - 70
+            end
+        end
     end
     -- ataque 2, Mordida
-    if self.Cd.Atq2 <= 0 and RangeAttack(self.Cd.Range2, hero.Contato, self.posicao, hero.posicao) and self.atacando == false then
+    if self.Cd.Atq2 <= 0 and RangeAttack(self.Cd.Range2, hero.Contato, self.posicao, hero.posicao) and self.atacando ==
+        false then
         self.Cd.Atq2 = 1
         self.tempoaux1 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 400
         self.aniAtaque2:resume()
+        if self.direcaoBoss > 1 then
+            self.AreaAtaque2 = {
+                x = self.posicao.x - 128,
+                y = self.posicao.y,
+                raio = 60
+            }
+            if RangeAttack(hero.Contato, self.AreaAtaque2.raio, self.AreaAtaque2, hero.posicao) then
+                hero.Hp = hero.Hp - 100
+            end
+        else
+            self.AreaAtaque2 = {
+                x = self.posicao.x + 128,
+                y = self.posicao.y,
+                raio = 60
+            }
+            if RangeAttack(hero.Contato, self.AreaAtaque2.raio, self.AreaAtaque2, hero.posicao) then
+                hero.Hp = hero.Hp - 100
+            end
+        end
     end
     -- ataque 3, estocada
-    if self.Cd.Atq3 <= 0 and RangeAttack(self.Cd.Range3, hero.Contato, self.posicao, hero.posicao) and self.atacando == false then
+    if self.Cd.Atq3 <= 0 and RangeAttack(self.Cd.Range3, hero.Contato, self.posicao, hero.posicao) and self.atacando ==
+        false then
         self.Cd.Atq3 = 1
         self.tempoaux2 = self.tempo
         self.atacando = true
-        hero.Hp = hero.Hp - 100
         self.aniAtaque3:resume()
         self.dash = true
+        if self.direcaoBoss > 1 then
+            print(hero.Hp)
+            self.AreaAtaque3 = {
+                xB = self.posicao.x,
+                yB = self.posicao.y,
+                xH = hero.posicao.x,
+                yH = hero.posicao.y,
+                RH = hero.Contato
+            }
+            if lineCircle(self.AreaAtaque3.xB, self.AreaAtaque3.yB, self.AreaAtaque3.xH, self.AreaAtaque3.yH,
+                self.AreaAtaque3.xH, self.AreaAtaque3.yH, self.AreaAtaque3.RH) then
+                hero.Hp = hero.Hp - 50
+            end
+        end
     end
-    
+
 end
 
 function Boss:Move(dt)
@@ -199,7 +260,7 @@ function Boss:Move(dt)
 
         self.vel_desejada = hero.posicao - self.posicao
 
-        if self.Cd.Atq3 > 0 and self.dash then  -- dash da habilidade
+        if self.Cd.Atq3 > 0 and self.dash then -- dash da habilidade
             print("DASH!!!")
             self.dash = false
             self.vel_desejada = self.vel_desejada * 60

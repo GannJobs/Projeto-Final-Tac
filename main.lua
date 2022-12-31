@@ -3,8 +3,8 @@ function love.load()
     Vetor = require "assets/Recursos/vector"
     anim = require "assets.Recursos.anim8"
 
-    --sti = require 'assets/Recursos/sti'
-    --gameMap = sti('assets/imagens/Map/map.lua', a, 1, 1)
+    -- sti = require 'assets/Recursos/sti'
+    -- gameMap = sti('assets/imagens/Map/map.lua', a, 1, 1)
 
     cenario = require "assets.classes.cenario"
     cenario = Cenario()
@@ -41,15 +41,15 @@ end
 
 function love.draw()
     cam:attach()
-        cenario:draw()
-        npc:draw()
-        boss:draw()
-        hero:draw()
-        enemy01:draw()
-        enemy02:draw()
+    cenario:draw()
+    npc:draw()
+    boss:draw()
+    hero:draw()
+    enemy01:draw()
+    enemy02:draw()
     cam:detach()
 
-    --gameMap:draw(1,1,1,1)
+    -- gameMap:draw(1,1,1,1)
 
     -- Status
 
@@ -114,22 +114,17 @@ end
 
 -- colisao do triangulo com o circulo da skill - 1
 
--- Function to check collision between triangle and circle
 function TriangleCircle(ax, ay, bx, by, cx, cy, dx, dy, r)
-    -- Get the center and radius of the circle
     local cx, cy, r = dx, dy, r
 
-    -- Get the vertices of the triangle
     local ax, ay = ax, ay
     local bx, by = bx, by
     local cx, cy = cx, cy
 
-    -- Check if the center of the circle is inside the triangle
     if pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy) then
         return true
     end
 
-    -- Check if any of the edges of the triangle intersect with the circle
     if lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r) then
         return true
     end
@@ -140,33 +135,91 @@ function TriangleCircle(ax, ay, bx, by, cx, cy, dx, dy, r)
         return true
     end
 
-    -- No collision
     return false
 end
 
--- Function to check if a point is inside a triangle
 function pointInTriangle(dx, dy, ax, ay, bx, by, cx, cy)
-    -- Compute the barycentric coordinates of the point
     local u = ((cx - bx) * (dy - by) - (cy - by) * (dx - bx)) / ((cy - by) * (ax - bx) - (cx - bx) * (ay - by))
     local v = ((ax - cx) * (dy - cy) - (ay - cy) * (dx - cx)) / ((by - cy) * (ax - cx) - (ay - cy) * (bx - cx))
     local w = 1 - u - v
 
-    -- Check if the point is inside the triangle
     if u >= 0 and v >= 0 and w >= 0 then
         return true
     end
     return false
 end
 
--- Function to check if a line intersects with a circle
 function lineCircleIntersection(ax, ay, bx, by, cx, cy, dx, dy, r)
-    -- Compute the distance between the line and the center of the circle
     local dist = math.abs((dy - cy) * (bx - ax) - (dx - cx) * (by - ay)) / math.sqrt((by - ay) ^ 2 + (bx - ax) ^ 2)
 
-    -- Check if the distance is less than the radius of the circle
     if dist < r then
         return true
     end
     return false
 end
 -- 
+
+-- linha circulo
+function lineCircle(x1, y1, x2, y2, cx, cy, r)
+
+    local inside1 = pointCircle(x1, y1, cx, cy, r)
+    local inside2 = pointCircle(x2, y2, cx, cy, r)
+    if inside1 or inside2 then
+        return true
+    end
+
+    local distX = x1 - x2
+    local distY = y1 - y2
+    local len = math.sqrt((distX * distX) + (distY * distY))
+
+    local dot = (((cx - x1) * (x2 - x1)) + ((cy - y1) * (y2 - y1))) / math.pow(len, 2)
+
+    local closestX = x1 + (dot * (x2 - x1))
+    local closestY = y1 + (dot * (y2 - y1))
+
+    local onSegment = linePoint(x1, y1, x2, y2, closestX, closestY)
+    if not onSegment then
+        return false
+    end
+
+    distX = closestX - cx
+    distY = closestY - cy
+    local distance = math.sqrt((distX * distX) + (distY * distY))
+
+    if distance <= r then
+        return true
+    end
+    return false
+end
+
+function pointCircle(px, py, cx, cy, r)
+
+    local distX = px - cx
+    local distY = py - cy
+    local distance = math.sqrt((distX * distX) + (distY * distY))
+
+    if distance <= r then
+        return true
+    end
+    return false
+end
+
+function linePoint(x1, y1, x2, y2, px, py)
+    local d1 = dist(px, py, x1, y1)
+    local d2 = dist(px, py, x2, y2)
+
+    local lineLen = dist(x1, y1, x2, y2)
+
+    local buffer = 0.1
+
+    if d1 + d2 >= lineLen - buffer and d1 + d2 <= lineLen + buffer then
+        return true
+    end
+    return false
+end
+
+function dist(x1, y1, x2, y2)
+    local distX = x2 - x1
+    local distY = y2 - y1
+    return math.sqrt((distX * distX) + (distY * distY))
+end

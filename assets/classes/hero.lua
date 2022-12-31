@@ -8,14 +8,14 @@ function Hero:new()
     self.x = 200
     self.y = 200
     self.posicao = Vetor(self.x, self.y)
-    self.speed = 400
+    self.speed = 200
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
 
     -- atributos
 
-    self.Hp = 800
+    self.Hp = 1000
     self.Mana = 350
 
     -- sprites
@@ -68,7 +68,7 @@ function Hero:update(dt)
 
     self.tempo = self.tempo + dt
     self:mov(dt)
-    
+
     if self.visivel then
         self:Skills(dt)
         self:Attack(dt)
@@ -118,7 +118,7 @@ function Hero:draw()
 
         if self.atacando == true then
             self.aniAtaque:draw(self.ataque, self.x, self.y, 0, self.direcao * 2, 2, 16, 26)
-            --love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt)
+            -- love.graphics.rectangle("fill", Corte.x, Corte.y, Corte.whidt, Corte.heigt)
         end
 
     end
@@ -155,7 +155,9 @@ function Hero:Attack(dt)
         if circleRect(enemy02.posicao.x, enemy02.posicao.y, enemy02.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
             enemy02.Hp = enemy02.Hp - 20
         end
-
+        if circleRect(boss.posicao.x, boss.posicao.y, boss.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            boss.Hp = boss.Hp - 20
+        end
     end
 
     if self.atacando == true then
@@ -195,6 +197,10 @@ function Hero:Skills(dt)
         if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
             EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.posicao.x, enemy02.posicao.y, enemy02.Contato) then
             enemy02.Hp = enemy02.Hp - 60
+        end
+        if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
+            EspadaDeEnergia.x3, EspadaDeEnergia.y3, boss.posicao.x, boss.posicao.y, boss.Contato) then
+            boss.Hp = boss.Hp - 60
         end
     end
 
@@ -236,6 +242,9 @@ function Hero:Skills(dt)
         end
         if RangeAttack(TempestadeDeChamas.raio, enemy02.Contato, TempestadeDeChamas.posicao, enemy02.posicao) then
             enemy02.Hp = enemy02.Hp - 1
+        end
+        if RangeAttack(TempestadeDeChamas.raio, boss.Contato, TempestadeDeChamas.posicao, boss.posicao) then
+            boss.Hp = boss.Hp - 1
         end
         self.aniSkill02:update(dt)
         if (self.tempo > self.tempoaux2 + 3.7) then
