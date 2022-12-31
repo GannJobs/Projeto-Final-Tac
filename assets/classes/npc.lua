@@ -91,7 +91,8 @@ function NPC:draw()
                                     "\nfogo do inferno, os corredores são zonas neutras e seguras." ..
                                     "\nO portão da sala do seu inimigo jurado só se abrirá quando tiver" ..
                                     "\npoder suficiente, então recupere as relíquias primeiro, e se " ..
-                                    "\nlembre, a espada ouve seu nome Scar, e o fogo...", self.x - 200,
+                                    "\nlembre, a espada espera ver seu nome Scar, e o fogo..." ..
+                                    "\no fogo se lembra, da sua origem.", self.x - 200,
                 self.y - 180)
         end
 
