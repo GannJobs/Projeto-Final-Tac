@@ -129,10 +129,82 @@ function Cenario:new()
         width = 45 * 1.5,
         heigth = 160 * 1.5
     }
+
+    self.SalaoDeLuta = false
+    self.SalaSegura = false
 end
 
 function Cenario:update(dt)
 
+    -- corredor nao ve 
+
+    -- lugares de combate
+    -- Local do Boss
+    if circleRectInterno(hero.x, hero.y, hero.Contato, self.CaixaBoss.x, self.CaixaBoss.y, self.CaixaBoss.width, self.CaixaBoss.heigth) and hero.visivel then
+        self.SalaoDeLuta = true
+        boss.On = true
+        if hero.x - hero.Contato == self.CaixaBoss.x then
+            hero.x = hero.x - 0
+        end
+        if hero.x + hero.Contato == self.CaixaBoss.x + self.CaixaBoss.width then
+            hero.x = hero.x + 0
+        end
+        if hero.y - hero.Contato == self.CaixaBoss.y then
+            hero.y = hero.y - 0
+        end
+        if hero.y + hero.Contato == self.CaixaBoss.y + self.CaixaBoss.heigth then
+            hero.y = hero.x - 0
+        end
+    else
+        self.SalaoDeLuta = false
+    end
+
+    -- Local Guerreiros
+    if circleRectInterno(hero.x, hero.y, hero.Contato, self.CaixaMen.x, self.CaixaMen.y, self.CaixaMen.width, self.CaixaMen.heigth) and hero.visivel then
+        self.SalaoDeLuta = true
+        if hero.x - hero.Contato == self.CaixaMen.x then
+            hero.x = hero.x - 0
+        end
+        if hero.x + hero.Contato == self.CaixaMen.x + self.CaixaMen.width then
+            hero.x = hero.x + 0
+        end
+        if hero.y - hero.Contato == self.CaixaMen.y then
+            hero.y = hero.y - 0
+        end
+        if hero.y + hero.Contato == self.CaixaMen.y + self.CaixaMen.heigth then
+            hero.y = hero.x - 0
+        end
+    else
+        self.SalaoDeLuta = false
+    end
+
+    -- Local Dogs
+    if circleRectInterno(hero.x, hero.y, hero.Contato, self.CaixaDog.x, self.CaixaDog.y, self.CaixaDog.width, self.CaixaDog.heigth) and hero.visivel then
+        self.SalaoDeLuta = true
+
+        if hero.x - hero.Contato == self.CaixaDog.x then
+            hero.x = hero.x - 0
+        end
+        if hero.x + hero.Contato == self.CaixaDog.x + self.CaixaDog.width then
+            hero.x = hero.x + 0
+        end
+        if hero.y - hero.Contato == self.CaixaDog.y then
+            hero.y = hero.y - 0
+        end
+        if hero.y + hero.Contato == self.CaixaDog.y + self.CaixaDog.heigth then
+            hero.y = hero.x - 0
+        end
+    else
+        self.SalaoDeLuta = false
+    end
+
+    if ( self.SalaoDeLuta or self.SalaSegura ) and self.SalaoDeLuta then
+        hero.visivel = true
+    else
+        if not self.SalaoDeLuta then
+            hero.visivel = false
+        end
+    end
 end
 
 function Cenario:draw()
