@@ -113,13 +113,6 @@ function Boss:draw()
         end
     end
 
-    -- range 1
-    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range1)
-    -- range 2
-    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range2)
-    -- range 3
-    -- love.graphics.circle("line", self.posicao.x, self.posicao.y, self.Cd.Range3)
-
 end
 
 function Boss:Attack(dt)
