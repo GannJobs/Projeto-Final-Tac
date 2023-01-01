@@ -99,7 +99,7 @@ function Enemy01:Attack(dt)
         if RangeAttack(hero.Contato,self.inimigos01[i].Contato, hero.posicao,self.inimigos01[i].posicao) and self.inimigos01[i].atacando == false then
            self.inimigos01[i].tempoaux = self.tempo
            self.inimigos01[i].atacando = true
-            hero.Hp = hero.Hp - 20
+            hero.Hp = hero.Hp - 8
            self.inimigos01[i].aniMordida:resume()
         end
     
