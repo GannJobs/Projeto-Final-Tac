@@ -71,8 +71,8 @@ function Boss:update(dt)
 
     if self.Hp > 0 and hero.visivel then
         self.tempo = self.tempo + dt
-        self:Move(dt)
         if self.On then
+            self:Move(dt)
             self:Attack(dt)
         end
     end
