@@ -132,7 +132,7 @@ function Enemy02:move(dt)
             self.aniMenRun:update(dt)
             self.inimigos02[i].Imovimento = true
     
-            self.inimigos02[i].Ivel_desejada = (hero.posicao - self.inimigos02[i].Iposicao)/5
+            self.inimigos02[i].Ivel_desejada = (hero.posicao - self.inimigos02[i].Iposicao)/8
             self.inimigos02[i].Iforca_direcao = self.inimigos02[i].Ivel_desejada - self.inimigos02[i].Ivelocidade
             self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade + self.inimigos02[i].Iforca_direcao / self.inimigos02[i].Imassa
             self.inimigos02[i].Idirecao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade

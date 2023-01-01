@@ -132,7 +132,7 @@ function Enemy01:move(dt)
             self.inimigos01[i].aniDogRun:update(dt)
             self.inimigos01[i].movimento = true
     
-            self.inimigos01[i].vel_desejada = (hero.posicao - self.inimigos01[i].posicao)/3
+            self.inimigos01[i].vel_desejada = (hero.posicao - self.inimigos01[i].posicao)/7
             self.inimigos01[i].vel_desejada = self.inimigos01[i].vel_desejada * 1.3
             self.inimigos01[i].forca_direcao = self.inimigos01[i].vel_desejada - self.inimigos01[i].velocidade
             self.inimigos01[i].velocidade = self.inimigos01[i].velocidade + self.inimigos01[i].forca_direcao / self.inimigos01[i].massa

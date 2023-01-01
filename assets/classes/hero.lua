@@ -18,7 +18,7 @@ function Hero:new()
 
     -- atributos
 
-    self.Hp = 800
+    self.Hp = 8000000
     self.Mana = 480
 
     -- sprites
@@ -240,7 +240,7 @@ function Hero:Skills(dt)
 
     if love.keyboard.isDown("l") and self.Skill2 == false and self.Mana - 140 > 0 and self.Cd.skill2 < 0 and self.Has_Skil2 == true then
         self.Cd.skill2 = 8
-        self.Mana = self.Mana - 180
+        self.Mana = self.Mana - 140
         x2 = self.x
         y2 = self.y
         self.tempoaux2 = self.tempo
