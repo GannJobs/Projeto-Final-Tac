@@ -8,7 +8,7 @@ function Hero:new()
     self.x = 905 * 1.5
     self.y = 1607 * 1.5
     self.posicao = Vetor(self.x, self.y)
-    self.speed = 500
+    self.speed = 200
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
@@ -18,7 +18,7 @@ function Hero:new()
 
     -- atributos
 
-    self.Hp = 8000000
+    self.Hp = 800
     self.Mana = 480
 
     -- sprites

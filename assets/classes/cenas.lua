@@ -13,6 +13,7 @@ function Cenas:new()
         height = 80
     }
     self.Controles = false
+    self.ImgControles = love.graphics.newImage("assets/imagens/Recursos/Controles.png")
     self.BotaoControles = {
         x = 250,
         y = 500,
@@ -132,7 +133,14 @@ function Cenas:draw()
 
     if self.Controles then
         -- desenha imagem do jogo
-        -- desenha tutorial do jogo
+        love.graphics.draw(self.ImgControles, 0,0)
+        love.graphics.print("Direcionais", 100, 140, 0, 3, 3)
+        love.graphics.print("Ataque", 100, 230, 0, 3, 3)
+        love.graphics.print("1 Habilidade", 100, 320, 0, 3, 3)
+        love.graphics.print("2 Habilidade", 100, 420, 0, 3, 3)
+        love.graphics.print("Interagir", 100, 515, 0, 3, 3)
+        love.graphics.print("Pausar", 100, 620, 0, 3, 3)
+
         love.graphics.setColor(1,0,0)
         love.graphics.rectangle("fill", self.BotaoVoltarControles.x, self.BotaoVoltarControles.y, self.BotaoVoltarControles.width, self.BotaoVoltarControles.height)
         love.graphics.setColor(1,1,1)
@@ -163,6 +171,14 @@ function Cenas:draw()
         if self.Pause then
             -- desenha imagem do jogo
             if self.Controles then
+                love.graphics.draw(self.ImgControles, 0,0)
+                love.graphics.print("Direcionais", 100, 140, 0, 3, 3)
+                love.graphics.print("Ataque", 100, 230, 0, 3, 3)
+                love.graphics.print("1 Habilidade", 100, 320, 0, 3, 3)
+                love.graphics.print("2 Habilidade", 100, 420, 0, 3, 3)
+                love.graphics.print("Interagir", 100, 515, 0, 3, 3)
+                love.graphics.print("Pausar", 100, 620, 0, 3, 3)
+                
                 love.graphics.setColor(1,0,0)
                 love.graphics.rectangle("fill", self.BotaoVoltarControles.x, self.BotaoVoltarControles.y, self.BotaoVoltarControles.width, self.BotaoVoltarControles.height)
                 love.graphics.setColor(1,1,1)
