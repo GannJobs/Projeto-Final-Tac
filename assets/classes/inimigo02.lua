@@ -172,8 +172,8 @@ function Enemy02:move(dt)
                 self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade
                 self.inimigos02[i].Iposicao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade * dt
 
-                if (self.inimigos01[i].posicao == self.inimigos01[i].origem) then
-                    self.inimigos01[i].movimento = false
+                if (self.inimigos02[i].Iposicao == self.inimigos02[i].origem) then
+                    self.inimigos02[i].Imovimento = false
                 end
             end
         end
