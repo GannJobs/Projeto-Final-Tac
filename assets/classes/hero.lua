@@ -8,7 +8,7 @@ function Hero:new()
     self.x = 905 * 1.5
     self.y = 1607 * 1.5
     self.posicao = Vetor(self.x, self.y)
-    self.speed = 300
+    self.speed = 500
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
@@ -98,15 +98,13 @@ function Hero:update(dt)
     end
 
     if self.Hp < 0 then
-        love.event.quit( 'restart' )
+        love.event.quit( "restart" )
     end
 
 end
 
 function Hero:draw()
     if self.Hp > 0 then
-
-        -- love.graphics.circle("fill", self.x, self.y, self.Contato)
 
         -- animaçoes
 
@@ -135,9 +133,9 @@ function Hero:draw()
 
     end
 
-    -- love.graphics.setColor(0, 1, 0)
-    -- love.graphics.points(self.x, self.y) -- referencial de posicao
-    -- love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.points(self.x, self.y) -- referencial de posicao
+    love.graphics.setColor(1, 1, 1)
 end
 
 function Hero:Attack(dt)
@@ -166,10 +164,10 @@ function Hero:Attack(dt)
             puzzles.fagulha = puzzles.fagulha + 1
         end   
         for i = 1, 15 do
-            if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) and enemy02.inimigos02[i].IHp > 0 then
                 enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
             end
-            if circleRect(enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+            if circleRect(enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt)  and enemy01.inimigos01[i].Hp > 0 then
                 enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 20
             end
         end
@@ -210,11 +208,11 @@ function Hero:Skills(dt)
         }
         for i = 1, 15 do
             if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
-                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato) then
+                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato) and enemy02.inimigos01[i].Hp > 0  then
                 enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 40
             end
             if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
-                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.inimigos02[i].Iposicao.x, enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato) then
+                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.inimigos02[i].Iposicao.x, enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato)  and enemy01.inimigos02[i].IHp > 0 then
                 enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 60
             end
         end
@@ -258,10 +256,10 @@ function Hero:Skills(dt)
 
     if self.Skill2 == true then
         for i=1, 15 do
-            if RangeAttack(TempestadeDeChamas.raio, enemy01.inimigos01[i].Contato, TempestadeDeChamas.posicao, enemy01.inimigos01[i].posicao) then
+            if RangeAttack(TempestadeDeChamas.raio, enemy01.inimigos01[i].Contato, TempestadeDeChamas.posicao, enemy01.inimigos01[i].posicao) and enemy02.inimigos01[i].Hp > 0  then
                 enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 2
             end
-            if RangeAttack(TempestadeDeChamas.raio, enemy02.inimigos02[i].IContato, TempestadeDeChamas.posicao, enemy02.inimigos02[i].Iposicao) then
+            if RangeAttack(TempestadeDeChamas.raio, enemy02.inimigos02[i].IContato, TempestadeDeChamas.posicao, enemy02.inimigos02[i].Iposicao)  and enemy01.inimigos02[i].IHp > 0 then
                 enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 1
             end
         end

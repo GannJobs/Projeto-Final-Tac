@@ -37,9 +37,10 @@ function Enemy02:new()
             Imovimento = false,
             Iatacando = false,
             IdirecaoMen = 1,
-        
+
             Iposicao = Vetor(x, y),
             Ivelocidade = Vetor(1, 1),
+            origem = Vetor(x, y),
             Ivel_desejada = Vetor(),
             Iforca_direcao = Vetor(),
             Imassa = 10,
@@ -48,9 +49,9 @@ function Enemy02:new()
             IaniMenStop = self.aniMenStop,
             IaniMenRun = self.aniMenRun,
             IaniMenAttack = self.aniMenAttack
-    
+
         }
-        
+
     end
 
     self.tempo = 0
@@ -59,12 +60,16 @@ end
 function Enemy02:update(dt)
 
     for i = 1, 15 do
-        if self.inimigos02[i].IHp > 0 and hero.visivel then
+        if self.inimigos02[i].IHp > 0 then
             self.tempo = self.tempo + dt
-            self:move(dt)
             if hero.visivel then
+                self:move(dt)
                 self:Attack(dt)
             end
+        else
+            self.inimigos02[i] = {
+                IHp = 0
+            }
         end
     end
 
@@ -74,43 +79,50 @@ function Enemy02:draw()
     for i = 1, 15 do
         if self.inimigos02[i].IHp > 0 then
             -- Status
-    
+
             love.graphics.setColor(1, 0, 0)
-            love.graphics.rectangle("fill", self.inimigos02[i].Iposicao.x - self.inimigos02[i].IHp / 2,self.inimigos02[i].Iposicao.y - 12,self.inimigos02[i].IHp, 6)
+            love.graphics.rectangle("fill", self.inimigos02[i].Iposicao.x - self.inimigos02[i].IHp / 2,
+                self.inimigos02[i].Iposicao.y - 42, self.inimigos02[i].IHp, 6)
             love.graphics.setColor(1, 1, 1)
-    
+
             -- animaçoes
-    
+
             if self.inimigos02[i].Imovimento == true and self.inimigos02[i].Iatacando == false then
-                self.inimigos02[i].IaniMenRun:draw(self.andando, self.inimigos02[i].Iposicao.x, self.inimigos02[i].Iposicao.y, 0,self.inimigos02[i].IdirecaoMen * 2, 2, 16, 0)
+                self.inimigos02[i].IaniMenRun:draw(self.andando, self.inimigos02[i].Iposicao.x,
+                    self.inimigos02[i].Iposicao.y - 32, 0, self.inimigos02[i].IdirecaoMen * 2, 2, 16, 0)
             else
-                self.inimigos02[i].IaniMenStop:draw(self.parada, self.inimigos02[i].Iposicao.x, self.inimigos02[i].Iposicao.y, 0, self.inimigos02[i].IdirecaoMen * 2, 2, 16, 0)
+                self.inimigos02[i].IaniMenStop:draw(self.parada, self.inimigos02[i].Iposicao.x,
+                    self.inimigos02[i].Iposicao.y - 32, 0, self.inimigos02[i].IdirecaoMen * 2, 2, 16, 0)
             end
-    
+
             if self.inimigos02[i].Iatacando == true then
-                self.inimigos02[i].IaniMenAttack:draw(self.cortar, self.inimigos02[i].Iposicao.x, self.inimigos02[i].Iposicao.y, 0, self.inimigos02[i].IdirecaoMen * 2, 2, 32, 16)
+                self.inimigos02[i].IaniMenAttack:draw(self.cortar, self.inimigos02[i].Iposicao.x,
+                    self.inimigos02[i].Iposicao.y - 32, 0, self.inimigos02[i].IdirecaoMen * 2, 2, 32, 16)
             end
-    
+
         end
     end
 end
 
 function Enemy02:Attack(dt)
     for i = 1, 15 do
-        if RangeAttack(hero.Contato, self.inimigos02[i].IContato, hero.posicao, self.inimigos02[i].Iposicao) and self.inimigos02[i].Iatacando == false then
-            self.inimigos02[i].Iaux = self.tempo
-            self.inimigos02[i].Iatacando = true
-            hero.Hp = hero.Hp - 10
-            self.aniMenAttack:resume()
-        end
-    
-        if self.inimigos02[i].Iatacando == true then
-            self.aniMenAttack:update(dt)
-            if self.tempo > self.inimigos02[i].Iaux + 1 then
-                self.aniMenAttack:pauseAtStart()
+        if self.inimigos02[i].IHp > 0 then
+            if RangeAttack(hero.Contato, self.inimigos02[i].IContato, hero.posicao, self.inimigos02[i].Iposicao) and
+                self.inimigos02[i].Iatacando == false then
+                self.inimigos02[i].Iaux = self.tempo
+                self.inimigos02[i].Iatacando = true
+                hero.Hp = hero.Hp - 1
+                self.aniMenAttack:resume()
             end
-            if self.tempo > self.inimigos02[i].Iaux + 2 then
-                self.inimigos02[i].Iatacando = false
+
+            if self.inimigos02[i].Iatacando == true then
+                self.aniMenAttack:update(dt)
+                if self.tempo > self.inimigos02[i].Iaux + 1 then
+                    self.aniMenAttack:pauseAtStart()
+                end
+                if self.tempo > self.inimigos02[i].Iaux + 2 then
+                    self.inimigos02[i].Iatacando = false
+                end
             end
         end
     end
@@ -118,29 +130,52 @@ end
 
 function Enemy02:move(dt)
     for i = 1, 15 do
-        if RangeVisao(self.inimigos02[i].IraioDeteccao, self.inimigos02[i].Iposicao, hero.posicao) then
-            if self.inimigos02[i].Iposicao.x > hero.posicao.x then
-                self.inimigos02[i].Idirecao = -1
-                self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
+        if self.inimigos02[i].IHp > 0 then
+            if RangeVisao(self.inimigos02[i].IraioDeteccao, self.inimigos02[i].Iposicao, hero.posicao) then
+                if self.inimigos02[i].Iposicao.x > hero.posicao.x then
+                    self.inimigos02[i].Idirecao = -1
+                    self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
+                end
+                if self.inimigos02[i].Iposicao.x < hero.posicao.x then
+                    self.inimigos02[i].Idirecao = 1
+                    self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
+
+                end
+
+                self.aniMenRun:update(dt)
+                self.inimigos02[i].Imovimento = true
+
+                self.inimigos02[i].Ivel_desejada = (hero.posicao - self.inimigos02[i].Iposicao) / 9
+                self.inimigos02[i].Iforca_direcao = self.inimigos02[i].Ivel_desejada - self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade + self.inimigos02[i].Iforca_direcao /
+                                                     self.inimigos02[i].Imassa
+                self.inimigos02[i].Idirecao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Iposicao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade * dt
+
+            else
+                if self.inimigos02[i].Iposicao.x > self.inimigos02[i].origem.x then
+                    self.inimigos02[i].Idirecao = -1
+                    self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
+                end
+                if self.inimigos02[i].Iposicao.x < self.inimigos02[i].origem.x then
+                    self.inimigos02[i].Idirecao = 1
+                    self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
+
+                end
+
+                self.inimigos02[i].Ivel_desejada = (self.inimigos02[i].origem - self.inimigos02[i].Iposicao) / 9
+                self.inimigos02[i].Iforca_direcao = self.inimigos02[i].Ivel_desejada - self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade + self.inimigos02[i].Iforca_direcao /
+                                                     self.inimigos02[i].Imassa
+                self.inimigos02[i].Idirecao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade
+                self.inimigos02[i].Iposicao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade * dt
+
+                if (self.inimigos01[i].posicao == self.inimigos01[i].origem) then
+                    self.inimigos01[i].movimento = false
+                end
             end
-            if self.inimigos02[i].Iposicao.x < hero.posicao.x then
-                self.inimigos02[i].Idirecao = 1
-                self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao
-    
-            end
-    
-            self.aniMenRun:update(dt)
-            self.inimigos02[i].Imovimento = true
-    
-            self.inimigos02[i].Ivel_desejada = (hero.posicao - self.inimigos02[i].Iposicao)/8
-            self.inimigos02[i].Iforca_direcao = self.inimigos02[i].Ivel_desejada - self.inimigos02[i].Ivelocidade
-            self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade + self.inimigos02[i].Iforca_direcao / self.inimigos02[i].Imassa
-            self.inimigos02[i].Idirecao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade
-            self.inimigos02[i].Ivelocidade = self.inimigos02[i].Ivelocidade
-            self.inimigos02[i].Iposicao = self.inimigos02[i].Iposicao + self.inimigos02[i].Ivelocidade * dt
-    
-        else
-            self.inimigos02[i].Imovimento = false
         end
     end
 end
