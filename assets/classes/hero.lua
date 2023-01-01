@@ -12,8 +12,8 @@ function Hero:new()
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
-    self.Has_Skil1 = true
-    self.Has_Skil2 = true
+    self.Has_Skil1 = false
+    self.Has_Skil2 = false
     self.lvl = 1
 
     -- atributos
@@ -165,7 +165,7 @@ function Hero:Attack(dt)
         if circleRect(puzzles.AreaFogueira.x, puzzles.AreaFogueira.y, puzzles.AreaFogueira.r, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
             puzzles.fagulha = puzzles.fagulha + 1
         end   
-        for i = 1, 3 do
+        for i = 1, 15 do
             if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
                 enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
             end
@@ -208,7 +208,7 @@ function Hero:Skills(dt)
             x3 = x1 + 35,
             y3 = y1 + 35
         }
-        for i = 1, 3 do
+        for i = 1, 15 do
             if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
                 EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato) then
                 enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 40
@@ -257,7 +257,7 @@ function Hero:Skills(dt)
     end
 
     if self.Skill2 == true then
-        for i=1, 3 do
+        for i=1, 15 do
             if RangeAttack(TempestadeDeChamas.raio, enemy01.inimigos01[i].Contato, TempestadeDeChamas.posicao, enemy01.inimigos01[i].posicao) then
                 enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 2
             end

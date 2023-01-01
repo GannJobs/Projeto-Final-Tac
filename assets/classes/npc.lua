@@ -72,27 +72,27 @@ function NPC:draw()
     end
     if self.chat then
         love.graphics.setColor(0.5, 0.5, 0.5)
-        love.graphics.rectangle("fill", self.x - 210, self.y - 190, 430, 150)
+        love.graphics.rectangle("fill", self.x - 290, self.y - 200, 590, 190)
         love.graphics.setColor(1, 1, 1)
         if self.chats == 1 then
-            love.graphics.print("Olá caçador, vejo que enfim chegou ao seu destino, logo mais a" ..
-                                    "\nfrente encontrará o esconderijo do lobisomen que você caça a anos." ..
+            love.graphics.print("Ola cacador, vejo que enfim chegou ao seu destino, logo mais a" ..
+                                    "\nfrente encontrara o esconderijo do lobisomen que voce caca a anos." ..
                                     "\nEstou aqui para prevenir que consiga fazer o seu trabalho" ..
-                                    "\na ordem tem grande apreço por você, por isso preciso que faça algo" ..
-                                    "\nantes para nos, e para você também, deste jeito nunca derrotará" ..
-                                    "\no seu inimigo, está fraco, mas em seu lar, existem 2 reliquias" ..
-                                    "\nque possuem poderes sagrados, a espada da punição, e o fogo do" ..
+                                    "\na ordem tem grande apreco por voce, por isso preciso que faca algo" ..
+                                    "\nantes para nos, e para voce tambem, deste jeito nunca derrotara" ..
+                                    "\no seu inimigo, esta fraco, mas em seu lar, existem 2 reliquias" ..
+                                    "\nque possuem poderes sagrados, a espada da punicao, e o fogo do" ..
                                     "\ninferno, recupere ambas, use-as em seu favor, mate a fera, e as" ..
-                                    "\ndevolva para nos, e isto não é uma opção...(siga em frente)", self.x - 200,
-                self.y - 180)
+                                    "\ndevolva para nos, e isto nao e uma opcao...(siga em frente)", 
+                                    self.x - 280, self.y - 190, 0, 1.5,1.5)
         else
             love.graphics.print("A esquerda se encontra a reliquia da espada sagrada, a direita o" ..
-                                    "\nfogo do inferno, os corredores são zonas neutras e seguras." ..
-                                    "\nO portão da sala do seu inimigo jurado só se abrirá quando tiver" ..
-                                    "\npoder suficiente, então recupere as relíquias primeiro, e se " ..
-                                    "\nlembre, a espada espera ver seu nome Scar, e o fogo..." ..
-                                    "\no fogo sente seus semelhantes, mesmo que de longe.", self.x - 200,
-                self.y - 180)
+                                    "\nfogo do inferno, os corredores sao zonas neutras e seguras." ..
+                                    "\nO portao da sala do seu inimigo jurado so se abrira quando tiver" ..
+                                    "\npoder suficiente, entao recupere as reliquias primeiro, e se" ..
+                                    "\nlembre, a espada espera ver seu nome Scar, e o fogo...o fogo" ..
+                                    "\nsente seus semelhantes, mesmo os mais distantes.", 
+                                    self.x - 280, self.y - 190, 0, 1.5,1.5)
         end
 
     end

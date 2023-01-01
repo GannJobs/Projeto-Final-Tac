@@ -22,7 +22,7 @@ function Enemy02:new()
 
     -- preechendo a tabela
 
-    for i = 1, 3 do
+    for i = 1, 15 do
 
         local x = love.math.random(70, 430) * 1.5
         local y = love.math.random(1077, 1400) * 1.5
@@ -58,7 +58,7 @@ end
 
 function Enemy02:update(dt)
 
-    for i = 1, 3 do
+    for i = 1, 15 do
         if self.inimigos02[i].IHp > 0 and hero.visivel then
             self.tempo = self.tempo + dt
             self:move(dt)
@@ -71,7 +71,7 @@ function Enemy02:update(dt)
 end
 
 function Enemy02:draw()
-    for i = 1, 3 do
+    for i = 1, 15 do
         if self.inimigos02[i].IHp > 0 then
             -- Status
     
@@ -96,7 +96,7 @@ function Enemy02:draw()
 end
 
 function Enemy02:Attack(dt)
-    for i = 1, 3 do
+    for i = 1, 15 do
         if RangeAttack(hero.Contato, self.inimigos02[i].IContato, hero.posicao, self.inimigos02[i].Iposicao) and self.inimigos02[i].Iatacando == false then
             self.inimigos02[i].Iaux = self.tempo
             self.inimigos02[i].Iatacando = true
@@ -117,7 +117,7 @@ function Enemy02:Attack(dt)
 end
 
 function Enemy02:move(dt)
-    for i = 1, 3 do
+    for i = 1, 15 do
         if RangeVisao(self.inimigos02[i].IraioDeteccao, self.inimigos02[i].Iposicao, hero.posicao) then
             if self.inimigos02[i].Iposicao.x > hero.posicao.x then
                 self.inimigos02[i].Idirecao = -1

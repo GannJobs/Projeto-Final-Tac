@@ -1,3 +1,5 @@
+local my_font = love.graphics.newFont('assets/Recursos/alagard.ttf')
+
 function love.load()
     Classe = require "assets/Recursos/classic"
     Vetor = require "assets/Recursos/vector"
@@ -27,44 +29,32 @@ function love.load()
     require "assets.classes.npc"
     npc = NPC()
 
+    require "assets.classes.cenas"
+    cenas = Cenas()
+
 end
 
 function love.update(dt)
-    puzzles:update(dt)
-    boss:update(dt)
-    hero:update(dt)
-    enemy01:update(dt)
-    enemy02:update(dt)
-    npc:update(dt)
-
-    cam:lookAt(hero.x, hero.y)
+    cenas:update(dt)
 end
 
 function love.draw()
-    cam:attach()
-    cenario:draw()
-    puzzles:draw()
-    npc:draw()
-    boss:draw()
-    hero:draw()
-    enemy01:draw()
-    enemy02:draw()
-    cam:detach()
-
-    -- Status
-
-    love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle("fill", 10, 10, hero.Hp, 10) -- hp
-    love.graphics.setColor(1, 1, 1)
-
-    love.graphics.setColor(0, 0, 1)
-    love.graphics.rectangle("fill", 10, 30, hero.Mana, 10) -- mana
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setFont(my_font)
+    cenas:draw()
 end
 
 function RangeVisao(a, Va, Vb)
     local DistVetores = math.sqrt((Va.x - Vb.x) ^ 2 + (Va.y - Vb.y) ^ 2)
     if a >= DistVetores then
+        return true
+    else
+        return false
+    end
+end
+
+function MouseSelection(a, b, x, y)
+    local mx, my = love.mouse.getPosition()
+    if mx >= x and mx <= x + a and my >= y and my <= y + b then
         return true
     else
         return false

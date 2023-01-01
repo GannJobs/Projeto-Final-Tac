@@ -21,7 +21,7 @@ function Enemy01:new()
     self.aniMordida = anim.newAnimation(grid('1-2', 1, '1-2', 2, '1-2', 3), 0.1)
 
 
-for i = 1, 3 do
+for i = 1, 15 do
     local x = love.math.random(1360, 1700) * 1.5
     local y = love.math.random(1085, 1400) * 1.5
 
@@ -56,7 +56,7 @@ end
 
 function Enemy01:update(dt)
 
-    for i = 1, 3 do
+    for i = 1, 15 do
         if self.inimigos01[i].Hp > 0 and hero.visivel then
             self.tempo = self.tempo + dt
             self:move(dt)
@@ -69,7 +69,7 @@ end
 
 function Enemy01:draw()
 
-    for i=1 , 3 do
+    for i=1 , 15 do
         if self.inimigos01[i].Hp > 0 then
 
             -- Status
@@ -95,7 +95,7 @@ end
 
 function Enemy01:Attack(dt)
 
-    for i=1, 3 do
+    for i=1, 15 do
         if RangeAttack(hero.Contato,self.inimigos01[i].Contato, hero.posicao,self.inimigos01[i].posicao) and self.inimigos01[i].atacando == false then
            self.inimigos01[i].tempoaux = self.tempo
            self.inimigos01[i].atacando = true
@@ -117,7 +117,7 @@ end
 
 function Enemy01:move(dt)
 
-    for i=1, 3 do
+    for i=1, 15 do
         if RangeVisao(self.inimigos01[i].raioDeteccao, self.inimigos01[i].posicao, hero.posicao) then
             if self.inimigos01[i].posicao.x > hero.posicao.x then
                 self.inimigos01[i].direcao = -1
