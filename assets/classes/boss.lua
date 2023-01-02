@@ -141,9 +141,6 @@ function Boss:Attack(dt)
             self.aniAtaque3:update(dt)
             if self.tempoaux2 + 0.5 < self.tempo then
                 self.aniAtaque3:pauseAtStart()
-                if lineCircle(self.posicao.x, self.posicao.y, hero.posicao.x, hero.posicao.y,hero.posicao.x, hero.posicao.y, hero.Contato) then
-                    hero.Hp = hero.Hp - 50
-                end
             end
             if self.tempoaux2 + 8 < self.tempo then
                 self.Cd.Atq3 = 0
@@ -218,6 +215,9 @@ function Boss:Attack(dt)
         self.tempoaux2 = self.tempo
         self.atacando = true
         self.aniAtaque3:resume()
+        if lineCircle(self.posicao.x, self.posicao.y, hero.posicao.x, hero.posicao.y,hero.posicao.x, hero.posicao.y, hero.Contato) and self.dash == true  then
+            hero.Hp = hero.Hp - 50
+        end
         self.dash = true
     end
 

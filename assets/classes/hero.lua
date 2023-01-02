@@ -12,8 +12,8 @@ function Hero:new()
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = false
-    self.Has_Skil1 = false
-    self.Has_Skil2 = false
+    self.Has_Skil1 = true
+    self.Has_Skil2 = true
     self.lvl = 1
 
     -- atributos
@@ -260,7 +260,7 @@ function Hero:Skills(dt)
                     enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 2
                 end
             end
-            if enemy02.inimigos01[i].IHp > 0  then
+            if enemy02.inimigos02[i].IHp > 0  then
                 if RangeAttack(TempestadeDeChamas.raio, enemy02.inimigos02[i].IContato, TempestadeDeChamas.posicao, enemy02.inimigos02[i].Iposicao) then
                     enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 1
                 end

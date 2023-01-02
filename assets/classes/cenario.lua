@@ -33,15 +33,15 @@ function Cenario:new()
     self.CaixaPuzzle = {
         caixa1 = {
             x = 60 * 1.5,
-            y = 422 * 1.5,
+            y = 442 * 1.5,
             width = 360 * 1.5,
-            heigth = 380 * 1.5
+            heigth = 310 * 1.5
         },
         caixa2 = {
             x = 1354 * 1.5,
-            y = 426 * 1.5,
+            y = 446 * 1.5,
             width = 360 * 1.5,
-            heigth = 320 * 1.5
+            heigth = 310 * 1.5
         },
         tesouro1 = {
             x = 150 * 1.5,
