@@ -113,8 +113,6 @@ function Cenas:update(dt)
                 love.event.quit( exitstatus )
             end
         end
-    else
-        hero.visivel = true
     end
 end
 

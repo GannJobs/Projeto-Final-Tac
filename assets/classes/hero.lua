@@ -8,10 +8,10 @@ function Hero:new()
     self.x = 905 * 1.5
     self.y = 1607 * 1.5
     self.posicao = Vetor(self.x, self.y)
-    self.speed = 200
+    self.speed = 700
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
-    self.visivel = true
+    self.visivel = false
     self.Has_Skil1 = false
     self.Has_Skil2 = false
     self.lvl = 1
@@ -100,6 +100,7 @@ function Hero:update(dt)
     if self.Hp < 0 then
         love.event.quit( "restart" )
     end
+    print(self.visivel)
 
 end
 

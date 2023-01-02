@@ -61,7 +61,6 @@ function Enemy01:update(dt)
             self.tempo = self.tempo + dt
             self:move(dt)
             if hero.visivel then
-                self:move(dt)
                 self:Attack(dt)
             end
         end
@@ -111,7 +110,7 @@ function Enemy01:Attack(dt)
 
         if self.inimigos01[i].atacando == true then
             self.inimigos01[i].aniMordida:update(dt)
-            if self.tempo > self.inimigos01[i].tempoaux + 0.5 then
+            if self.tempo > self.inimigos01[i].tempoaux + 1 then
                 self.inimigos01[i].aniMordida:pauseAtStart()
             end
             if self.tempo > self.inimigos01[i].tempoaux + 3 then
@@ -124,7 +123,7 @@ end
 function Enemy01:move(dt)
 
     for i = 1, 15 do
-        if RangeVisao(self.inimigos01[i].raioDeteccao, self.inimigos01[i].posicao, hero.posicao) then
+        if RangeVisao(self.inimigos01[i].raioDeteccao, self.inimigos01[i].posicao, hero.posicao) and hero.visivel == true then
             if self.inimigos01[i].posicao.x > hero.posicao.x then
                 self.inimigos01[i].direcao = -1
                 self.inimigos01[i].direcaoDog = self.inimigos01[i].direcao

@@ -62,8 +62,8 @@ function Enemy02:update(dt)
     for i = 1, 15 do
         if self.inimigos02[i].IHp > 0 then
             self.tempo = self.tempo + dt
+            self:move(dt)
             if hero.visivel then
-                self:move(dt)
                 self:Attack(dt)
             end
         else
@@ -131,7 +131,7 @@ end
 function Enemy02:move(dt)
     for i = 1, 15 do
         if self.inimigos02[i].IHp > 0 then
-            if RangeVisao(self.inimigos02[i].IraioDeteccao, self.inimigos02[i].Iposicao, hero.posicao) then
+            if RangeVisao(self.inimigos02[i].IraioDeteccao, self.inimigos02[i].Iposicao, hero.posicao) and hero.visivel == true then
                 if self.inimigos02[i].Iposicao.x > hero.posicao.x then
                     self.inimigos02[i].Idirecao = -1
                     self.inimigos02[i].IdirecaoMen = self.inimigos02[i].Idirecao

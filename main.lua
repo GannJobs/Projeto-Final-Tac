@@ -45,7 +45,7 @@ end
 
 function circleRectInterno(cx, cy, radius, rx, ry, rw, rh)
 
-    if (cx + radius > rx and rx + rw > cx + radius) and (cy + radius > ry and ry + rh > cy + radius) then
+    if (cx + radius > rx and rx + rw > cx - radius) and (cy + radius > ry and ry + rh > cy - radius) then
         return true
     end
     return false
