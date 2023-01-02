@@ -2,7 +2,7 @@ Cenas = Classe:extend()
 
 function Cenas:new()
     -- tela inicial
-    --self.Fundo = love.graphics.newImage("")
+    self.Fundo = love.graphics.newImage("assets/imagens/Recursos/fundo.png")
     -- menu inicial
     self.Menu = true
     self.Jogar = false
@@ -42,9 +42,8 @@ function Cenas:new()
         height = 80
     }
 
- -- love.event.quit( "restart" )
     -- vencer jogo 
-
+    
     -- perder jogo
 
 end
@@ -118,7 +117,7 @@ end
 
 function Cenas:draw()
     if self.Menu and self.Controles == false then
-        -- desenha imagem do jogo
+        love.graphics.draw(self.Fundo, 0,0)
         love.graphics.setColor(1,0,0)
         love.graphics.rectangle("fill", self.BotaoJogar.x, self.BotaoJogar.y, self.BotaoJogar.width, self.BotaoJogar.height)
         love.graphics.rectangle("fill", self.BotaoControles.x, self.BotaoControles.y, self.BotaoControles.width, self.BotaoControles.height)
@@ -131,7 +130,7 @@ function Cenas:draw()
     end
 
     if self.Controles then
-        -- desenha imagem do jogo
+        love.graphics.draw(self.Fundo, 0,0)
         love.graphics.draw(self.ImgControles, 0,0)
         love.graphics.print("Direcionais", 100, 140, 0, 3, 3)
         love.graphics.print("Ataque", 100, 230, 0, 3, 3)
@@ -168,7 +167,7 @@ function Cenas:draw()
         love.graphics.setColor(1, 1, 1)
     else
         if self.Pause then
-            -- desenha imagem do jogo
+            love.graphics.draw(self.Fundo, 0,0)
             if self.Controles then
                 love.graphics.draw(self.ImgControles, 0,0)
                 love.graphics.print("Direcionais", 100, 140, 0, 3, 3)

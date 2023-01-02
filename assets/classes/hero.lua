@@ -100,8 +100,6 @@ function Hero:update(dt)
     if self.Hp < 0 then
         love.event.quit( "restart" )
     end
-    print(self.visivel)
-
 end
 
 function Hero:draw()
