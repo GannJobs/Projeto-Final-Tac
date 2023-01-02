@@ -83,6 +83,7 @@ function Cenas:update(dt)
         enemy01:update(dt)
         enemy02:update(dt)
         npc:update(dt)
+        cenario:update(dt)
     
         cam:lookAt(hero.x, hero.y)
         if love.keyboard.isDown("p") then

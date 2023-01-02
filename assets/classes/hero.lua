@@ -8,7 +8,7 @@ function Hero:new()
     self.x = 905 * 1.5
     self.y = 1607 * 1.5
     self.posicao = Vetor(self.x, self.y)
-    self.speed = 500
+    self.speed = 200
     self.direcao = 1 -- 1 direita / -1 esquerda
     self.movimento = false
     self.visivel = true
@@ -164,11 +164,15 @@ function Hero:Attack(dt)
             puzzles.fagulha = puzzles.fagulha + 1
         end   
         for i = 1, 15 do
-            if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) and enemy02.inimigos02[i].IHp > 0 then
-                enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
+            if enemy02.inimigos02[i].IHp > 0  then
+                if circleRect(enemy02.inimigos02[i].Iposicao.x , enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+                    enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 15
+                end
             end
-            if circleRect(enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt)  and enemy01.inimigos01[i].Hp > 0 then
-                enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 20
+            if enemy01.inimigos01[i].Hp > 0 then
+                if circleRect(enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
+                    enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 20
+                end
             end
         end
         if circleRect(boss.posicao.x, boss.posicao.y, boss.Contato, Corte.x, Corte.y, Corte.whidt, Corte.heigt) then
@@ -207,13 +211,17 @@ function Hero:Skills(dt)
             y3 = y1 + 35
         }
         for i = 1, 15 do
-            if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
-                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato) and enemy02.inimigos01[i].Hp > 0  then
-                enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 40
+            if enemy01.inimigos01[i].Hp > 0  then
+                if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
+                    EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy01.inimigos01[i].posicao.x, enemy01.inimigos01[i].posicao.y, enemy01.inimigos01[i].Contato) then
+                    enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 40
+                end
             end
-            if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
-                EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.inimigos02[i].Iposicao.x, enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato)  and enemy01.inimigos02[i].IHp > 0 then
-                enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 60
+            if enemy02.inimigos02[i].IHp > 0  then
+                if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
+                    EspadaDeEnergia.x3, EspadaDeEnergia.y3, enemy02.inimigos02[i].Iposicao.x, enemy02.inimigos02[i].Iposicao.y, enemy02.inimigos02[i].IContato) then
+                    enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 60
+                end
             end
         end
         if TriangleCircle(EspadaDeEnergia.x1, EspadaDeEnergia.y1, EspadaDeEnergia.x2, EspadaDeEnergia.y2,
@@ -256,11 +264,15 @@ function Hero:Skills(dt)
 
     if self.Skill2 == true then
         for i=1, 15 do
-            if RangeAttack(TempestadeDeChamas.raio, enemy01.inimigos01[i].Contato, TempestadeDeChamas.posicao, enemy01.inimigos01[i].posicao) and enemy02.inimigos01[i].Hp > 0  then
-                enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 2
+            if enemy01.inimigos01[i].Hp > 0  then
+                if RangeAttack(TempestadeDeChamas.raio, enemy01.inimigos01[i].Contato, TempestadeDeChamas.posicao, enemy01.inimigos01[i].posicao) then
+                    enemy01.inimigos01[i].Hp = enemy01.inimigos01[i].Hp - 2
+                end
             end
-            if RangeAttack(TempestadeDeChamas.raio, enemy02.inimigos02[i].IContato, TempestadeDeChamas.posicao, enemy02.inimigos02[i].Iposicao)  and enemy01.inimigos02[i].IHp > 0 then
-                enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 1
+            if enemy02.inimigos01[i].IHp > 0  then
+                if RangeAttack(TempestadeDeChamas.raio, enemy02.inimigos02[i].IContato, TempestadeDeChamas.posicao, enemy02.inimigos02[i].Iposicao) then
+                    enemy02.inimigos02[i].IHp = enemy02.inimigos02[i].IHp - 1
+                end
             end
         end
         if RangeAttack(TempestadeDeChamas.raio, boss.Contato, TempestadeDeChamas.posicao, boss.posicao) then
