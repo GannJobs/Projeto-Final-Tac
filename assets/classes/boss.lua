@@ -29,9 +29,9 @@ function Boss:new()
 
     self.Parado = love.graphics.newImage("assets/imagens/chefe/boss.png")
 
-    -- self.andando = love.graphics.newImage("assets/imagens/personagem/Andar.png")
-    -- local grid = anim.newGrid(128, 128, self.andando:getWidth(), self.andando:getHeight())
-    -- self.aniBossRun = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-3', 3, '1-1', 4), 0.1)
+    self.andando = love.graphics.newImage("assets/imagens/chefe/bossAndando.png")
+    local grid = anim.newGrid(128, 128, self.andando:getWidth(), self.andando:getHeight())
+    self.aniBossRun = anim.newAnimation(grid('1-3', 1, '1-3', 2, '1-2', 3), 0.1)
 
     -- ataques
 
@@ -69,9 +69,9 @@ end
 
 function Boss:update(dt)
 
-    if self.Hp > 0 and hero.visivel then
+    if self.Hp > 0 then
         self.tempo = self.tempo + dt
-        if self.On then
+        if self.On and hero.Hp > 0 then
             self:Move(dt)
             self:Attack(dt)
         end
@@ -87,21 +87,17 @@ function Boss:draw()
         love.graphics.setColor(1, 1, 1)
 
         if self.movimento == false then
-            -- self.aniBossRun:draw()
-            love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
-
+            self.aniBossRun:draw(self.andando, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
         else
             if self.atacando == false then
                 love.graphics.draw(self.Parado, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
             else
                 if self.Cd.Atq1 > 0 then
                     self.aniAtaque1:draw(self.ataque1, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64, 64)
-                    -- love.graphics.rectangle("fill", self.AreaAtaque1.x, self.AreaAtaque1.y, self.AreaAtaque1.width, self.AreaAtaque1.height)
                 else
                     if self.Cd.Atq2 > 0 then
                         self.aniAtaque2:draw(self.ataque2, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2, 64,
                             64)
-                        -- love.graphics.circle("fill", self.AreaAtaque2.x, self.AreaAtaque2.y, self.AreaAtaque2.raio)
                     else
                         if self.Cd.Atq3 > 0 then
                             self.aniAtaque3:draw(self.ataque3, self.posicao.x, self.posicao.y, 0, self.direcaoBoss, 2,
@@ -143,8 +139,11 @@ function Boss:Attack(dt)
         if self.Cd.Atq3 > 0 then
             self.dash = false
             self.aniAtaque3:update(dt)
-            if self.tempoaux2 + 1 < self.tempo then
+            if self.tempoaux2 + 0.5 < self.tempo then
                 self.aniAtaque3:pauseAtStart()
+                if lineCircle(self.posicao.x, self.posicao.y, hero.posicao.x, hero.posicao.y,hero.posicao.x, hero.posicao.y, hero.Contato) then
+                    hero.Hp = hero.Hp - 50
+                end
             end
             if self.tempoaux2 + 8 < self.tempo then
                 self.Cd.Atq3 = 0
@@ -220,20 +219,6 @@ function Boss:Attack(dt)
         self.atacando = true
         self.aniAtaque3:resume()
         self.dash = true
-        if self.direcaoBoss > 1 then
-            print(hero.Hp)
-            self.AreaAtaque3 = {
-                xB = self.posicao.x,
-                yB = self.posicao.y,
-                xH = hero.posicao.x,
-                yH = hero.posicao.y,
-                RH = hero.Contato
-            }
-            if lineCircle(self.AreaAtaque3.xB, self.AreaAtaque3.yB, self.AreaAtaque3.xH, self.AreaAtaque3.yH,
-                self.AreaAtaque3.xH, self.AreaAtaque3.yH, self.AreaAtaque3.RH) then
-                hero.Hp = hero.Hp - 50
-            end
-        end
     end
 
 end
@@ -250,13 +235,12 @@ function Boss:Move(dt)
 
         end
 
-        -- self.aniBossRun:update(dt)
+        self.aniBossRun:update(dt)
         self.movimento = true
 
         self.vel_desejada = hero.posicao - self.posicao
 
         if self.Cd.Atq3 > 0 and self.dash then -- dash da habilidade
-            print("DASH!!!")
             self.dash = false
             self.vel_desejada = self.vel_desejada * 60
         end

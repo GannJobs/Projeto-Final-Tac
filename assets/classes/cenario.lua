@@ -77,7 +77,7 @@ function Cenario:new()
     -- corredores
     self.CorredorSpawnNPC = {
         x = 885 * 1.5,
-        y = 1289 * 1.5,
+        y = 1300 * 1.5,
         width = 43 * 1.5,
         heigth = 230 * 1.5
     }
@@ -113,7 +113,7 @@ function Cenario:new()
     }
     self.CorredorT2Skill = {
         x = 1498 * 1.5,
-        y = 234 * 1.5,
+        y = 244 * 1.5,
         width = 54 * 1.5,
         heigth = 215 * 1.5
     }
@@ -197,6 +197,18 @@ function Cenario:update(dt)
         if hero.x >= self.CorredorT1Skill.x + self.CorredorT1Skill.width then
             hero.x = self.CorredorT1Skill.x + self.CorredorT1Skill.width
         end
+    else
+        if Corredor4 and not puzzles.Gate1Open then
+            if hero.y <= self.CorredorT1Skill.y + self.CorredorT1Skill.heigth then
+                hero.y =  self.CorredorT1Skill.y + self.CorredorT1Skill.heigth 
+            end
+            if hero.x <= self.CorredorT1Skill.x then
+                hero.x = self.CorredorT1Skill.x
+            end
+            if hero.x >= self.CorredorT1Skill.x + self.CorredorT1Skill.width then
+                hero.x = self.CorredorT1Skill.x + self.CorredorT1Skill.width
+            end
+        end
     end
     if Corredor5 then
         hero.visivel = false
@@ -223,6 +235,18 @@ function Cenario:update(dt)
         end
         if hero.x >= self.CorredorT2Skill.x + self.CorredorT2Skill.width then
             hero.x = self.CorredorT2Skill.x + self.CorredorT2Skill.width
+        end
+    else
+        if Corredor7 and not puzzles.Gate2Open then
+            if hero.y <= self.CorredorT2Skill.y + self.CorredorT2Skill.heigth then
+                hero.y =  self.CorredorT2Skill.y + self.CorredorT2Skill.heigth 
+            end
+            if hero.x <= self.CorredorT2Skill.x then
+                hero.x = self.CorredorT2Skill.x
+            end
+            if hero.x >= self.CorredorT2Skill.x + self.CorredorT2Skill.width then
+                hero.x = self.CorredorT2Skill.x + self.CorredorT2Skill.width
+            end
         end
     end
 
@@ -373,12 +397,12 @@ function Cenario:update(dt)
             hero.x = self.CaixaPuzzle.tesouro2.x + self.CaixaPuzzle.tesouro2.width
         end
         if hero.y <= self.CaixaPuzzle.tesouro2.y then
-            if not Corredor4 then
+            if not Corredor7 then
                 hero.y = self.CaixaPuzzle.tesouro2.y
             end
         end
         if hero.y >= self.CaixaPuzzle.tesouro2.y + self.CaixaPuzzle.tesouro2.heigth then
-            if not Corredor4 then
+            if not Corredor7 then
                 hero.y = self.CaixaPuzzle.tesouro2.y + self.CaixaPuzzle.tesouro2.heigth
             end
         end
@@ -422,8 +446,6 @@ function Cenario:update(dt)
         if hero.y >= self.CaixaBoss.y + self.CaixaBoss.heigth then
             hero.y = self.CaixaBoss.y + self.CaixaBoss.heigth
         end
-    else
-        hero.visivel = false
     end
 
     -- Local Guerreiros
@@ -486,13 +508,4 @@ function Cenario:draw()
             love.graphics.draw(self.Mapa3, 0, 0, 0, 1.5, 1.5)
         end
     end
-    
-    love.graphics.rectangle("fill", self.SalaSpawn.x, self.SalaSpawn.y, self.SalaSpawn.width, self.SalaSpawn.heigth)
-
-    love.graphics.setColor(1,0,0)
-    love.graphics.rectangle("fill", self.CorredorSpawnNPC.x, self.CorredorSpawnNPC.y, self.CorredorSpawnNPC.width, self.CorredorSpawnNPC.heigth)
-
-    love.graphics.setColor(1,1,1)
-
-
 end

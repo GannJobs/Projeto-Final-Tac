@@ -5,7 +5,9 @@ function Puzzles:new()
     -- 1 Puzzle
 
     self.Acertos = 0
+    
     self.Gate1Open = false
+
     self.altares = {
         posicao1 = Vetor(300 * 1.5, 550 * 1.5),
         posicao2 = Vetor(185 * 1.5, 550 * 1.5),
